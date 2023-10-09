@@ -5,6 +5,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<LangVersion>11</LangVersion>
 		<Nullable>enable</Nullable>
+		<RootNamespace>Cysharp.Text</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>

@@ -1,7 +1,7 @@
 ﻿using System.Buffers;
+using System.Buffers.Text;
 using System.Runtime.CompilerServices;
 using System.Text;
-using Utf8String.Internal;
 
 namespace Cysharp.Text;
 
@@ -71,6 +71,11 @@ public ref partial struct Utf8StringBuilder<TBufferWriter>
 
     public void AppendLiteral(string s)
     {
+        AppendLiteral(s.AsSpan());
+    }
+
+    public void AppendLiteral(scoped ReadOnlySpan<char> s)
+    {
         var max = Encoding.UTF8.GetMaxByteCount(s.Length);
         TryGrow(max);
         var bytesWritten = Encoding.UTF8.GetBytes(s, destination);
@@ -84,6 +89,45 @@ public ref partial struct Utf8StringBuilder<TBufferWriter>
         destination.Slice(0, count).Fill((byte)' ');
         destination = destination.Slice(count);
         currentWritten += count;
+    }
+
+    public void Append(string s)
+    {
+        AppendLiteral(s);
+    }
+
+    public void Append(char c)
+    {
+        Span<char> xs = stackalloc char[1];
+        xs[0] = c;
+        AppendLiteral(xs);
+    }
+
+    public void Append(char c, int repeatCount)
+    {
+        Span<char> xs = stackalloc char[1];
+        xs[0] = c;
+        Span<byte> ys = stackalloc byte[16];
+        var written = Encoding.UTF8.GetBytes(xs, ys);
+        if (written == 1 && ys[0] == (byte)c)
+        {
+            TryGrow(repeatCount);
+            destination.Slice(0, repeatCount).Fill((byte)c);
+            destination = destination.Slice(repeatCount);
+            currentWritten += repeatCount;
+        }
+        else
+        {
+            var encodedChar = ys.Slice(written);
+            var total = repeatCount * written;
+            TryGrow(total);
+            for (int i = 0; i < repeatCount; i++)
+            {
+                encodedChar.CopyTo(destination);
+                destination = destination.Slice(written);
+            }
+            currentWritten += total;
+        }
     }
 
     public void AppendUtf8(scoped ReadOnlySpan<byte> utf8String)

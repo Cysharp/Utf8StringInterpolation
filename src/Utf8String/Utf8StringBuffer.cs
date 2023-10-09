@@ -1,5 +1,5 @@
 ﻿using System.Buffers;
-using Utf8String.Internal;
+using System.Text;
 
 namespace Cysharp.Text;
 
@@ -28,6 +28,11 @@ public struct Utf8StringBuffer : IDisposable
         var dest = bufferWriter.GetSpan(written.Length);
         written.CopyTo(dest);
         bufferWriter.Advance(written.Length);
+    }
+
+    public override string ToString()
+    {
+        return Encoding.UTF8.GetString(WrittenSpan);
     }
 
     public void Dispose()

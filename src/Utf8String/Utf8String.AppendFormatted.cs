@@ -1,7 +1,6 @@
 ﻿using System.Buffers;
 using System.Buffers.Text;
 using System.Runtime.CompilerServices;
-using Utf8String;
 
 namespace Cysharp.Text;
 

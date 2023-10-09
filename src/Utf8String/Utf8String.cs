@@ -1,7 +1,6 @@
 ﻿using System.Buffers;
 using System.Runtime.CompilerServices;
 using System.Text;
-using Utf8String.Internal;
 
 namespace Cysharp.Text;
 
@@ -37,8 +36,6 @@ public static class Utf8String
     }
 
     // Builder API
-
-    // CreateBuilder
 
     public static Utf8StringBuilder<TBufferWriter> CreateBuilder<TBufferWriter>(TBufferWriter bufferWriter)
         where TBufferWriter : IBufferWriter<byte>
