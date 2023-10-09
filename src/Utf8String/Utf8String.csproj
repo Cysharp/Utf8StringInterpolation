@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<LangVersion>11</LangVersion>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+		<None Update="Utf8String.AppendFormatted.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>Utf8String.AppendFormatted.cs</LastGenOutput>
+		</None>
+		<Compile Update="Utf8String.AppendFormatted.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Utf8String.AppendFormatted.tt</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+</Project>

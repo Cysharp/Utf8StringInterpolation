@@ -1,0 +1,103 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+<#
+    // https://learn.microsoft.com/ja-jp/dotnet/api/system.buffers.text.utf8formatter.tryformat
+    // without DateTime, DateTimeOffset, TimeSpan
+    var utf8FormatterTypes = "bool,byte,Decimal,Double,Guid,Int16,Int32,Int64,SByte,Single,UInt16,UInt32,UInt64".Split(',');
+    var tryFormatTypes = "DateTime,DateTimeOffset,TimeSpan".Split(',');
+
+    var utf8FormatterWrite1 = "Utf8Formatter.TryFormat(value, destination, out bytesWritten, StandardFormat.Parse(format))";
+    var utf8FormatterWrite2 = "Utf8Formatter.TryFormat(value, buffer, out bytesWritten, StandardFormat.Parse(format))";
+
+    var tryFormatWrite1 = "value.TryFormat(destination, out bytesWritten, format, formatProvider)";
+    var tryFormatWrite2 = "value.TryFormat(buffer, out bytesWritten, format, formatProvider)";
+
+    var generateTypes = utf8FormatterTypes.Select(x => (type: x, format1: utf8FormatterWrite1, format2: utf8FormatterWrite2))
+                .Concat(tryFormatTypes.Select(x => (type: x, format1: tryFormatWrite1, format2: tryFormatWrite2)))
+                .ToArray();
+#>
+using System.Buffers;
+using System.Buffers.Text;
+using System.Runtime.CompilerServices;
+
+namespace Cysharp.Text;
+
+public ref partial struct Utf8StringBuilder<TBufferWriter>
+{
+<# foreach(var x in generateTypes) { #>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void AppendFormatted(<#= x.type #> value, int alignment = 0, string? format = null)
+    {
+        if (alignment == 0)
+        {
+            var bytesWritten = 0;
+            while (!<#= x.format1 #>)
+            {
+                GrowCore(0);
+            }
+            destination = destination.Slice(bytesWritten);
+            currentWritten += bytesWritten;
+            return;
+        }
+
+        AppendFormattedAlignment(value, alignment, format);
+    }
+
+    void AppendFormattedAlignment(<#= x.type #> value, int alignment, string? format)
+    {
+        var bytesWritten = 0;
+
+        // add left whitespace
+        if (alignment > 0)
+        {
+            Span<byte> buffer = stackalloc byte[32];
+            while (!<#= x.format2 #>)
+            {
+                if (buffer.Length < 512)
+                {
+#pragma warning disable CA2014 // Do not use stackalloc in loops
+                    buffer = stackalloc byte[buffer.Length * 2];
+#pragma warning restore CA2014 // Do not use stackalloc in loops
+                }
+                else
+                {
+                    buffer = new byte[buffer.Length * 2]; // too large
+                }
+            }
+
+            var space = alignment - bytesWritten;
+            if (space > 0)
+            {
+                AppendWhitespace(space);
+            }
+
+            TryGrow(bytesWritten);
+            buffer.Slice(0, bytesWritten).CopyTo(destination);
+            destination = destination.Slice(bytesWritten);
+            currentWritten += bytesWritten;
+            return;
+        }
+        else
+        {
+            // add right whitespace
+            while (!<#= x.format1 #>)
+            {
+                GrowCore(0);
+            }
+            destination = destination.Slice(bytesWritten);
+            currentWritten += bytesWritten;
+
+            var space = bytesWritten + alignment;
+            if (space < 0)
+            {
+                AppendWhitespace(-space);
+            }
+        }
+    }
+
+<# } #>
+}
