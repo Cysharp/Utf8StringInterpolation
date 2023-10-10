@@ -4,14 +4,15 @@ using System.Buffers;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
+using Utf8StringInterpolation.Internal;
 #if NET6_0_OR_GREATER
 using System.Text.Unicode;
 #endif
 
-namespace Cysharp.Text;
+namespace Utf8StringInterpolation;
 
 [InterpolatedStringHandler]
-public ref partial struct Utf8StringBuilder<TBufferWriter>
+public ref partial struct Utf8StringWriter<TBufferWriter>
     where TBufferWriter : IBufferWriter<byte>
 {
     static readonly byte[] NewLineUtf8Bytes = Encoding.UTF8.GetBytes(Environment.NewLine);
@@ -24,12 +25,14 @@ public ref partial struct Utf8StringBuilder<TBufferWriter>
     TBufferWriter bufferWriter;
     int currentWritten;
     IFormatProvider? formatProvider;
+    bool calculateStringJustSize;
 
     internal TBufferWriter GetBufferWriter() => bufferWriter;
+    internal int GetCurrentWritten() => currentWritten;
     internal int GetAllocatedDestinationSize() => allocatedDestinationSize;
 
     // create directly
-    public Utf8StringBuilder(TBufferWriter bufferWriter, IFormatProvider? formatProvider = default)
+    public Utf8StringWriter(TBufferWriter bufferWriter, IFormatProvider? formatProvider = default)
     {
         this.bufferWriter = bufferWriter;
         this.formatProvider = formatProvider;
@@ -37,7 +40,7 @@ public ref partial struct Utf8StringBuilder<TBufferWriter>
     }
 
     // from interpolated string
-    public Utf8StringBuilder(int literalLength, int formattedCount, TBufferWriter bufferWriter, IFormatProvider? formatProvider = default)
+    public Utf8StringWriter(int literalLength, int formattedCount, TBufferWriter bufferWriter, IFormatProvider? formatProvider = default)
     {
         this.bufferWriter = bufferWriter;
         this.formatProvider = formatProvider;
@@ -46,7 +49,7 @@ public ref partial struct Utf8StringBuilder<TBufferWriter>
     }
 
     //  from byte[] Format, use ThreadStatic ArrayBufferWriter
-    public Utf8StringBuilder(int literalLength, int formattedCount, IFormatProvider? formatProvider = default)
+    public Utf8StringWriter(int literalLength, int formattedCount, IFormatProvider? formatProvider = default)
     {
         this.bufferWriter = (TBufferWriter)(object)ArrayBufferWriterPool.GetThreadStaticInstance();
         this.formatProvider = formatProvider;
@@ -55,17 +58,18 @@ public ref partial struct Utf8StringBuilder<TBufferWriter>
     }
 
     //  from bool Tryormat, use ThreadStatic ArrayBufferWriter
-    public Utf8StringBuilder(int literalLength, int formattedCount, Span<byte> destination, IFormatProvider? formatProvider = default)
+    public Utf8StringWriter(int literalLength, int formattedCount, Span<byte> destination, IFormatProvider? formatProvider = default)
     {
         this.bufferWriter = (TBufferWriter)(object)ArrayBufferWriterPool.GetThreadStaticInstance();
         this.formatProvider = formatProvider;
         this.destination = destination;
         this.allocatedDestinationSize = destination.Length;
+        this.calculateStringJustSize = true;
         this.bufferWriter.GetSpan(destination.Length); // allocate dummy
     }
 
     // from AppendFormat extension methods.
-    public Utf8StringBuilder(int literalLength, int formattedCount, scoped ref Utf8StringBuilder<TBufferWriter> parent)
+    public Utf8StringWriter(int literalLength, int formattedCount, scoped ref Utf8StringWriter<TBufferWriter> parent)
     {
         parent.ClearState();
         this.bufferWriter = parent.bufferWriter;
@@ -76,7 +80,7 @@ public ref partial struct Utf8StringBuilder<TBufferWriter>
 
     public void AppendLiteral(string s)
     {
-        AppendFormatted(s.AsSpan());
+        AppendString(s.AsSpan());
     }
 
     public void AppendWhitespace(int count)
@@ -150,7 +154,7 @@ public ref partial struct Utf8StringBuilder<TBufferWriter>
     int AppendString(scoped ReadOnlySpan<char> s)
     {
         if (s.Length == 0) return 0;
-        var max = Encoding.UTF8.GetMaxByteCount(s.Length);
+        var max = GetStringByteCount(s);
         TryGrow(max);
         var bytesWritten = Encoding.UTF8.GetBytes(s, destination);
         destination = destination.Slice(bytesWritten);
@@ -169,7 +173,7 @@ public ref partial struct Utf8StringBuilder<TBufferWriter>
         // add left whitespace
         if (alignment > 0)
         {
-            var max = Encoding.UTF8.GetMaxByteCount(value.Length);
+            var max = GetStringByteCount(value);
             var rentArray = ArrayPool<byte>.Shared.Rent(max);
             var buffer = rentArray.AsSpan();
             var bytesWritten = Encoding.UTF8.GetBytes(value, buffer);
@@ -190,7 +194,7 @@ public ref partial struct Utf8StringBuilder<TBufferWriter>
         else
         {
             // add right whitespace
-            var max = Encoding.UTF8.GetMaxByteCount(value.Length);
+            var max = GetStringByteCount(value);
             TryGrow(max);
             var bytesWritten = Encoding.UTF8.GetBytes(value, destination);
             destination = destination.Slice(bytesWritten);
@@ -269,7 +273,7 @@ public ref partial struct Utf8StringBuilder<TBufferWriter>
         {
             // add left whitespace
             // first, write to temp buffer
-            using var buffer = Utf8String.CreateBuilder(out var builder);
+            using var buffer = Utf8String.CreateWriter(out var builder);
             builder.AppendFormatted(value, 0, format); // no alignment
             builder.Flush();
 
@@ -382,6 +386,11 @@ public ref partial struct Utf8StringBuilder<TBufferWriter>
         currentWritten = 0;
     }
 
+    int GetStringByteCount(scoped ReadOnlySpan<char> str)
+    {
+        return calculateStringJustSize ? Encoding.UTF8.GetByteCount(str) : Encoding.UTF8.GetMaxByteCount(str.Length);
+    }
+
     public void Flush()
     {
         if (currentWritten != 0)
@@ -393,7 +402,12 @@ public ref partial struct Utf8StringBuilder<TBufferWriter>
 
     public void Dispose()
     {
-        Flush();
+        if (bufferWriter != null && destination.Length != 0)
+        {
+            Flush();
+        }
+        bufferWriter = default!;
+        destination = default!;
     }
 }
 
@@ -402,16 +416,16 @@ public static class Utf8StringExtensions
     // hack for use nested InterpolatedStringHandler.
 
     public static void AppendFormat<TBufferWriter>(
-        this ref Utf8StringBuilder<TBufferWriter> parent,
-        [InterpolatedStringHandlerArgument("parent")] ref Utf8StringBuilder<TBufferWriter> format)
+        this ref Utf8StringWriter<TBufferWriter> parent,
+        [InterpolatedStringHandlerArgument("parent")] ref Utf8StringWriter<TBufferWriter> format)
         where TBufferWriter : IBufferWriter<byte>
     {
         format.Flush();
     }
 
     public static void AppendLine<TBufferWriter>(
-        this ref Utf8StringBuilder<TBufferWriter> parent,
-        [InterpolatedStringHandlerArgument("parent")] ref Utf8StringBuilder<TBufferWriter> format)
+        this ref Utf8StringWriter<TBufferWriter> parent,
+        [InterpolatedStringHandlerArgument("parent")] ref Utf8StringWriter<TBufferWriter> format)
         where TBufferWriter : IBufferWriter<byte>
     {
         format.Flush();

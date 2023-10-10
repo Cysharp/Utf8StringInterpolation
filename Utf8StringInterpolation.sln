@@ -5,7 +5,7 @@ VisualStudioVersion = 17.8.34112.27
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{77AECFE2-39F1-4377-90FD-3372F7C16A42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utf8String", "src\Utf8String\Utf8String.csproj", "{92924227-0EE6-4F49-9418-25128AFBF493}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utf8StringInterpolation", "src\Utf8StringInterpolation\Utf8StringInterpolation.csproj", "{92924227-0EE6-4F49-9418-25128AFBF493}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sandbox", "sandbox", "{6576F04F-290C-411A-962F-E5C0B82E9E07}"
 EndProject
@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Net6ConsoleApp", "sandbox\N
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{AC23EACD-3970-4DE6-BB31-13612E3A1886}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utf8String.Tests", "tests\Utf8String.Tests\Utf8String.Tests.csproj", "{2FDBCD9E-9E23-47AD-83E7-50EF1A26F5CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utf8StringInterpolation.Tests", "tests\Utf8StringInterpolation.Tests\Utf8StringInterpolation.Tests.csproj", "{2FDBCD9E-9E23-47AD-83E7-50EF1A26F5CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

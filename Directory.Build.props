@@ -12,7 +12,7 @@
         <Company>Cysharp</Company>
         <Authors>Cysharp</Authors>
         <Copyright>© Cysharp, Inc.</Copyright>
-        <PackageProjectUrl>https://github.com/Cysharp/Utf8String</PackageProjectUrl>
+        <PackageProjectUrl>https://github.com/Cysharp/Utf8StringInterpolation</PackageProjectUrl>
         <RepositoryUrl>$(PackageProjectUrl)</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>

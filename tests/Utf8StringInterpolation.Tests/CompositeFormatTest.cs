@@ -1,4 +1,3 @@
-using Cysharp.Text;
 using FluentAssertions;
 using System;
 using System.Buffers;
@@ -6,8 +5,8 @@ using System.Text;
 using Xunit;
 using static FluentAssertions.FluentActions;
 
-using static Cysharp.Text.Tests.FormatTest;
-namespace Cysharp.Text.Tests
+using static Utf8StringInterpolation.Tests.FormatTest;
+namespace Utf8StringInterpolation.Tests
 {
     public class CompositeFormatTest
     {

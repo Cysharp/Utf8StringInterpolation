@@ -1,7 +1,8 @@
 ﻿using System.Buffers;
 using System.Text;
+using Utf8StringInterpolation.Internal;
 
-namespace Cysharp.Text;
+namespace Utf8StringInterpolation;
 
 public struct Utf8StringBuffer : IDisposable
 {
@@ -9,7 +10,7 @@ public struct Utf8StringBuffer : IDisposable
 
     internal Utf8StringBuffer(ArrayBufferWriter<byte> bufferWriter)
     {
-        this.innerBuffer = bufferWriter;
+        innerBuffer = bufferWriter;
     }
 
     public int WrittenCount => innerBuffer.WrittenCount;

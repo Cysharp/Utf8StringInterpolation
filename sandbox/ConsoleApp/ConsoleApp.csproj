@@ -15,7 +15,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\src\Utf8String\Utf8String.csproj" />
+		<ProjectReference Include="..\..\src\Utf8StringInterpolation\Utf8StringInterpolation.csproj" />
 	</ItemGroup>
 
 </Project>

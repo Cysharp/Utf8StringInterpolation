@@ -7,7 +7,6 @@
 		<LangVersion>11.0</LangVersion>
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
-		<RootNamespace>Cysharp.Text.Tests</RootNamespace>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<NoWarn>$(NoWarn);CS1591;CS8604;CS8321;CS0414;CS0169;CS0649</NoWarn>
@@ -29,13 +28,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\src\Utf8String\Utf8String.csproj" />
+		<ProjectReference Include="..\..\src\Utf8StringInterpolation\Utf8StringInterpolation.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Using Include="Xunit" />
 		<Using Include="Xunit.Abstractions" />
-		<Using Include="Cysharp.Text" />
+		<Using Include="Utf8StringInterpolation" />
 	</ItemGroup>
 
 </Project>

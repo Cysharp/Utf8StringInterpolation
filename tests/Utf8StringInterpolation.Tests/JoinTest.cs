@@ -1,4 +1,4 @@
-﻿namespace Cysharp.Text.Tests
+﻿namespace Utf8StringInterpolation.Tests
 {
 
 

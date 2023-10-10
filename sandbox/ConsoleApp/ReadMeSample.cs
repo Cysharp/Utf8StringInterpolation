@@ -1,11 +1,11 @@
-﻿using Cysharp.Text;
-using System;
+﻿using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.IO.Pipelines;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Utf8StringInterpolation;
 
 namespace ConsoleApp;
 
@@ -26,12 +26,14 @@ internal class ReadMeSample
         var pipeWriter = PipeWriter.Create(fs);
         Utf8String.Format(pipeWriter, $"Foo: {id,10} {name,-5}"); // support alignment
 
+        
+
         // like StringBuilder
-        var builder = Utf8String.CreateBuilder(bufferWriter);
-        builder.Append("My Name...");
-        builder.AppendFormat($"is...? {name}");
-        builder.AppendLine();
-        builder.Flush();
+        var writer = Utf8String.CreateWriter(bufferWriter);
+        writer.Append("My Name...");
+        writer.AppendFormat($"is...? {name}");
+        writer.AppendLine();
+        writer.Flush();
 
         // Join, Concat methods
         var seq = Enumerable.Range(1, 10);
@@ -39,4 +41,51 @@ internal class ReadMeSample
 
     }
 
+
+    void WriterSample()
+    {
+        var bufferWriter = new ArrayBufferWriter<byte>();
+
+        var writer = Utf8String.CreateWriter(bufferWriter);
+
+        // call each append methods.
+        writer.Append("foo");
+        writer.AppendFormat($"bar {Guid.NewGuid}");
+
+        // finally call Flush(or Dispose)
+        writer.Flush();
+
+        // get written utf8
+        var writtenData = bufferWriter.WrittenSpan;
+    }
+
+    void WriterSample2(IBufferWriter<byte> otherBufferWriter)
+    {
+        // buffer must Dispose after used(recommend to use using)
+        using var buffer = Utf8String.CreateWriter(out var writer);
+
+        // call each append methods.
+        writer.Append("foo");
+        writer.AppendFormat($"bar {Guid.NewGuid}");
+
+        // finally call Flush(or Dispose)
+        writer.Flush();
+
+        // copy to written data or get byte[] / ReadOnlySpan<byte>
+        buffer.CopyTo(otherBufferWriter);
+        var bytes = buffer.ToArray();
+        var writtenData = buffer.WrittenSpan;
+    }
+
+    void Formatting()
+    {
+            // .NET 8 supports all numeric custom format string but .NET Standard 2.1, .NET 6(.NET 7) does not.
+            Utf8String.Format($"Double value is {123.456789:.###}");
+
+            // DateTime, DateTimeOffset, TimeSpan support custom format string on all target plaftorms.
+            // https://learn.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings
+            Utf8String.Format($"Today is {DateTime.Now:yyyy-MM-dd}");
+
+
+    }
 }

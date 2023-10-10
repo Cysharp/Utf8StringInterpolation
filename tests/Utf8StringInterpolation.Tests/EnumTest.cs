@@ -1,11 +1,10 @@
-﻿using Cysharp.Text;
-using FluentAssertions;
+﻿using FluentAssertions;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
 
-namespace Cysharp.Text.Tests
+namespace Utf8StringInterpolation.Tests
 {
     public enum DuplicateEnum
     {

@@ -9,4 +9,8 @@
 		<IsPackable>false</IsPackable>
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\..\src\Utf8StringInterpolation\Utf8StringInterpolation.csproj" />
+	</ItemGroup>
+
 </Project>

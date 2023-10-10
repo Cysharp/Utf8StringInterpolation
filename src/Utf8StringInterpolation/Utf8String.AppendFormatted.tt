@@ -24,9 +24,9 @@ using System.Buffers;
 using System.Buffers.Text;
 using System.Runtime.CompilerServices;
 
-namespace Cysharp.Text;
+namespace Utf8StringInterpolation;
 
-public ref partial struct Utf8StringBuilder<TBufferWriter>
+public ref partial struct Utf8StringWriter<TBufferWriter>
 {
 <# foreach(var x in generateTypes) { #>
 <#= (x.type is not "bool" or "char") ? "#if !NET8_0_OR_GREATER" : "# if true" #>

@@ -1,19 +1,18 @@
-﻿using Cysharp.Text;
-using System;
+﻿using System;
 using System.Buffers;
 using System.Buffers.Text;
 using System.Reflection.PortableExecutable;
 using System.Runtime.InteropServices.Marshalling;
 using System.Text;
+using System.Xml.Linq;
+using Utf8StringInterpolation;
 
 //Console.WriteLine($"Foo{100,5}Bar");
 
-
-
-var format = "Prime numbers less than 10: {00 , 01 }, {01  ,02  }, {2,3:D}, {3  ,4: X }";
-var expected = string.Format(format, 2, 3, 5, 7);
-
-Console.WriteLine(expected);
+var a= Utf8String.Format($"Double value is {123.456789:.###}");
+var b = Utf8String.Format($"Today is {DateTime.Now:yyyy-MM-dd}");
+Console.WriteLine( Encoding.UTF8.GetString(a));
+Console.WriteLine( Encoding.UTF8.GetString(b));
 
 //var actual = Utf8String.Format($"Prime numbers less than 10: {2,01}, {3,02}, {5,3:D}, {7,4: X}");
 //actual.Should().Be(expected);

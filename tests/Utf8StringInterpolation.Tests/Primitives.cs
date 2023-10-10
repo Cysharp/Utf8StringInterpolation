@@ -1,12 +1,11 @@
-﻿using Cysharp.Text;
-using FluentAssertions;
+﻿using FluentAssertions;
 using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
 
-namespace Cysharp.Text.Tests
+namespace Utf8StringInterpolation.Tests
 {
     public enum MoreMyEnum
     {
@@ -30,7 +29,7 @@ namespace Cysharp.Text.Tests
         [InlineData(-1234567890, 1234567890)]
         public void Integer(int x, int y)
         {
-            using (var buffer = Utf8String.CreateBuilder(out var sb1))
+            using (var buffer = Utf8String.CreateWriter(out var sb1))
             {
                 var sb5 = new StringBuilder();
                 sb1.AppendFormatted(x); sb1.AppendFormatted(y);
@@ -58,7 +57,7 @@ namespace Cysharp.Text.Tests
         [InlineData(123456789012UL, 123456789012UL)]
         public void UInt64(ulong x, ulong y)
         {
-            using (var buffer = Utf8String.CreateBuilder(out var sb1))
+            using (var buffer = Utf8String.CreateWriter(out var sb1))
             {
                 var sb5 = new StringBuilder();
                 sb1.AppendFormatted(x); sb1.AppendFormatted(y);
@@ -86,7 +85,7 @@ namespace Cysharp.Text.Tests
         [InlineData(1234512345d, 1234512345d)]
         public void Double(double x, double y)
         {
-            using (var buffer = Utf8String.CreateBuilder(out var sb1))
+            using (var buffer = Utf8String.CreateWriter(out var sb1))
             {
                 var sb5 = new StringBuilder();
                 sb1.AppendFormatted(x); sb1.AppendFormatted(y);
@@ -111,7 +110,7 @@ namespace Cysharp.Text.Tests
         [InlineData(123.123f, 123.123f)]
         public void Single(float x, float y)
         {
-            using (var buffer = Utf8String.CreateBuilder(out var sb1))
+            using (var buffer = Utf8String.CreateWriter(out var sb1))
             {
                 var sb5 = new StringBuilder();
                 sb1.AppendFormatted(x); sb1.AppendFormatted(y);
@@ -125,7 +124,7 @@ namespace Cysharp.Text.Tests
         [Fact]
         public void Others()
         {
-            using (var buffer = Utf8String.CreateBuilder(out var sb1))
+            using (var buffer = Utf8String.CreateWriter(out var sb1))
             {
                 var x = DateTime.Now;
                 var y = DateTimeOffset.Now;
@@ -147,7 +146,7 @@ namespace Cysharp.Text.Tests
             var x = MoreMyEnum.Apple;
             var y = MoreMyEnum.Orange;
 
-            using (var buffer = Utf8String.CreateBuilder(out var sb1))
+            using (var buffer = Utf8String.CreateWriter(out var sb1))
             {
                 var sb5 = new StringBuilder();
                 sb1.AppendFormatted(x); sb1.AppendFormatted(y);
@@ -163,7 +162,7 @@ namespace Cysharp.Text.Tests
         [InlineData(false)]
         public void BoolTest(bool x)
         {
-            using (var buffer = Utf8String.CreateBuilder(out var sb1))
+            using (var buffer = Utf8String.CreateWriter(out var sb1))
             {
                 var sb5 = new StringBuilder();
                 sb1.AppendFormatted(x);

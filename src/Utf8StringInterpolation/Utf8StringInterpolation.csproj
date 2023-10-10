@@ -5,11 +5,10 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<LangVersion>11</LangVersion>
 		<Nullable>enable</Nullable>
-		<RootNamespace>Cysharp.Text</RootNamespace>
-
+		
 		<NoWarn>$(NoWarn);CS1591;CA2255</NoWarn>
 		<PackageTags>string</PackageTags>
-		<Description>Successor of ZString; UTF8 based Interpolated Strings and StringBuilder.</Description>
+		<Description>Successor of ZString; UTF8 based String Interpolation and StringBuilder.</Description>
 	</PropertyGroup>
 
 	<ItemGroup>

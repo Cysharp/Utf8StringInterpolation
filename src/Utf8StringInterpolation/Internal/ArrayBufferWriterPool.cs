@@ -1,7 +1,7 @@
 ﻿using System.Buffers;
 using System.Collections.Concurrent;
 
-namespace Cysharp.Text;
+namespace Utf8StringInterpolation.Internal;
 
 internal static class ArrayBufferWriterPool
 {

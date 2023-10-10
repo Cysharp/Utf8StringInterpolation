@@ -1,12 +1,11 @@
-﻿using Cysharp.Text;
-using FluentAssertions;
+﻿using FluentAssertions;
 using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
 
-namespace Cysharp.Text.Tests
+namespace Utf8StringInterpolation.Tests
 {
     public class Utf8StringBuilderTest
     {
@@ -14,7 +13,7 @@ namespace Cysharp.Text.Tests
         [Fact]
         public void AppendCharRepeat()
         {
-            using (var buffer = Utf8String.CreateBuilder(out var zsb))
+            using (var buffer = Utf8String.CreateWriter(out var zsb))
             {
                 var text = "foo";
                 zsb.AppendLiteral(text);

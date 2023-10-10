@@ -2,9 +2,9 @@
 using System.Buffers.Text;
 using System.Runtime.CompilerServices;
 
-namespace Cysharp.Text;
+namespace Utf8StringInterpolation;
 
-public ref partial struct Utf8StringBuilder<TBufferWriter>
+public ref partial struct Utf8StringWriter<TBufferWriter>
 {
 # if true
 
