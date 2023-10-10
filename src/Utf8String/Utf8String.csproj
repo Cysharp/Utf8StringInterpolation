@@ -6,7 +6,15 @@
 		<LangVersion>11</LangVersion>
 		<Nullable>enable</Nullable>
 		<RootNamespace>Cysharp.Text</RootNamespace>
+
+		<NoWarn>$(NoWarn);CS1591;CA2255</NoWarn>
+		<PackageTags>string</PackageTags>
+		<Description>Successor of ZString; UTF8 based Interpolated Strings and StringBuilder.</Description>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="../../Icon.png" Pack="true" PackagePath="/" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
