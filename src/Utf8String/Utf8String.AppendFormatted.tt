@@ -8,7 +8,7 @@
     // https://learn.microsoft.com/ja-jp/dotnet/api/system.buffers.text.utf8formatter.tryformat
     // without DateTime, DateTimeOffset, TimeSpan
     var utf8FormatterTypes = "bool,byte,Decimal,Double,Guid,Int16,Int32,Int64,SByte,Single,UInt16,UInt32,UInt64".Split(',');
-    var tryFormatTypes = "DateTime,DateTimeOffset,TimeSpan".Split(',');
+    var tryFormatTypes = "DateTime,DateTimeOffset,TimeSpan,char".Split(',');
 
     var utf8FormatterWrite1 = "Utf8Formatter.TryFormat(value, destination, out bytesWritten, StandardFormat.Parse(format))";
     var utf8FormatterWrite2 = "Utf8Formatter.TryFormat(value, buffer, out bytesWritten, StandardFormat.Parse(format))";
@@ -29,6 +29,8 @@ namespace Cysharp.Text;
 public ref partial struct Utf8StringBuilder<TBufferWriter>
 {
 <# foreach(var x in generateTypes) { #>
+<#= (x.type is not "bool" or "char") ? "#if !NET8_0_OR_GREATER" : "# if true" #>
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(<#= x.type #> value, int alignment = 0, string? format = null)
     {
@@ -98,6 +100,7 @@ public ref partial struct Utf8StringBuilder<TBufferWriter>
             }
         }
     }
+#endif
 
 <# } #>
 }

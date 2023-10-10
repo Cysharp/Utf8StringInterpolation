@@ -10,7 +10,7 @@ internal static class Shims
 {
     public static bool TryFormat(this DateTime value, Span<byte> utf8Destination, out int bytesWritten, string? format, IFormatProvider? formatProvider)
     {
-        Span<char> charDest = stackalloc char[32];
+        Span<char> charDest = stackalloc char[256];
         var charWritten = 0;
         while (!value.TryFormat(charDest, out charWritten, format, formatProvider))
         {
@@ -37,7 +37,7 @@ internal static class Shims
 
     public static bool TryFormat(this DateTimeOffset value, Span<byte> utf8Destination, out int bytesWritten, string? format, IFormatProvider? formatProvider)
     {
-        Span<char> charDest = stackalloc char[32];
+        Span<char> charDest = stackalloc char[256];
         var charWritten = 0;
         while (!value.TryFormat(charDest, out charWritten, format, formatProvider))
         {
@@ -64,7 +64,7 @@ internal static class Shims
 
     public static bool TryFormat(this TimeSpan value, Span<byte> utf8Destination, out int bytesWritten, string? format, IFormatProvider? formatProvider)
     {
-        Span<char> charDest = stackalloc char[32];
+        Span<char> charDest = stackalloc char[256];
         var charWritten = 0;
         while (!value.TryFormat(charDest, out charWritten, format, formatProvider))
         {
@@ -87,6 +87,11 @@ internal static class Shims
 
         bytesWritten = Encoding.UTF8.GetBytes(charDest, utf8Destination);
         return true;
+    }
+
+    public static bool TryFormat(this char value, Span<byte> utf8Destination, out int bytesWritten, string? format, IFormatProvider? formatProvider)
+    {
+        return new Rune(value).TryEncodeToUtf8(utf8Destination, out bytesWritten);
     }
 }
 

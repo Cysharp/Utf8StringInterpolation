@@ -1,7 +1,12 @@
-﻿using System.Buffers;
+﻿#pragma warning disable CA2014 // Do not use stackalloc in loops
+
+using System.Buffers;
 using System.Buffers.Text;
+using System.Diagnostics;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.Unicode;
 
 namespace Cysharp.Text;
 
@@ -71,16 +76,7 @@ public ref partial struct Utf8StringBuilder<TBufferWriter>
 
     public void AppendLiteral(string s)
     {
-        AppendLiteral(s.AsSpan());
-    }
-
-    public void AppendLiteral(scoped ReadOnlySpan<char> s)
-    {
-        var max = Encoding.UTF8.GetMaxByteCount(s.Length);
-        TryGrow(max);
-        var bytesWritten = Encoding.UTF8.GetBytes(s, destination);
-        destination = destination.Slice(bytesWritten);
-        currentWritten += bytesWritten;
+        AppendFormatted(s.AsSpan());
     }
 
     public void AppendWhitespace(int count)
@@ -100,7 +96,7 @@ public ref partial struct Utf8StringBuilder<TBufferWriter>
     {
         Span<char> xs = stackalloc char[1];
         xs[0] = c;
-        AppendLiteral(xs);
+        AppendFormatted(xs);
     }
 
     public void Append(char c, int repeatCount)
@@ -132,6 +128,7 @@ public ref partial struct Utf8StringBuilder<TBufferWriter>
 
     public void AppendUtf8(scoped ReadOnlySpan<byte> utf8String)
     {
+        if (utf8String.Length == 0) return;
         TryGrow(utf8String.Length);
         utf8String.CopyTo(destination);
         var bytesWritten = utf8String.Length;
@@ -139,18 +136,203 @@ public ref partial struct Utf8StringBuilder<TBufferWriter>
         currentWritten += bytesWritten;
     }
 
-#if NET8_0_OR_GREATER
-
-    public void AppendFormatted<T>(T value, int alignment = 0, string? format = null)
-        where T : IUtf8SpanFormattable
+    public void AppendFormatted(scoped ReadOnlySpan<byte> utf8String)
     {
-        var bytesWritten = 0;
-        while (!value.TryFormat(destination, out bytesWritten, format, formatProvider))
-        {
-            GrowCore(0);
-        }
+        AppendUtf8(utf8String);
+    }
+
+    public void AppendFormatted(scoped ReadOnlySpan<char> s)
+    {
+        AppendString(s);
+    }
+
+    int AppendString(scoped ReadOnlySpan<char> s)
+    {
+        if (s.Length == 0) return 0;
+        var max = Encoding.UTF8.GetMaxByteCount(s.Length);
+        TryGrow(max);
+        var bytesWritten = Encoding.UTF8.GetBytes(s, destination);
         destination = destination.Slice(bytesWritten);
         currentWritten += bytesWritten;
+        return bytesWritten;
+    }
+
+    public void AppendFormatted(string value, int alignment = 0, string? format = null)
+    {
+        if (alignment == 0)
+        {
+            AppendLiteral(value);
+            return;
+        }
+
+        // add left whitespace
+        if (alignment > 0)
+        {
+            var max = Encoding.UTF8.GetMaxByteCount(value.Length);
+            var rentArray = ArrayPool<byte>.Shared.Rent(max);
+            var buffer = rentArray.AsSpan();
+            var bytesWritten = Encoding.UTF8.GetBytes(value, buffer);
+
+            var space = alignment - bytesWritten;
+            if (space > 0)
+            {
+                AppendWhitespace(space);
+            }
+
+            TryGrow(bytesWritten);
+            buffer.Slice(0, bytesWritten).CopyTo(destination);
+            destination = destination.Slice(bytesWritten);
+            currentWritten += bytesWritten;
+            ArrayPool<byte>.Shared.Return(rentArray);
+            return;
+        }
+        else
+        {
+            // add right whitespace
+            var max = Encoding.UTF8.GetMaxByteCount(value.Length);
+            TryGrow(max);
+            var bytesWritten = Encoding.UTF8.GetBytes(value, destination);
+            destination = destination.Slice(bytesWritten);
+            currentWritten += bytesWritten;
+
+            var space = bytesWritten + alignment;
+            if (space < 0)
+            {
+                AppendWhitespace(-space);
+            }
+        }
+    }
+
+    public void AppendFormatted<T>(T value, int alignment = 0, string? format = null)
+    {
+        // no alignment or add right whitespace
+        if (alignment <= 0)
+        {
+            var bytesWritten = 0;
+
+#if NET8_0_OR_GREATER
+            if (typeof(T).IsEnum)
+            {
+                bytesWritten = AppendEnum(value, format);
+                goto WRITE_WHITESPACE;
+            }
+
+            // .NET 8
+            if (value is IUtf8SpanFormattable)
+            {
+                // constrained call avoiding boxing for value types
+                while (!((IUtf8SpanFormattable)value).TryFormat(destination, out bytesWritten, format, formatProvider))
+                {
+                    GrowCore(0);
+                }
+                destination = destination.Slice(bytesWritten);
+                currentWritten += bytesWritten;
+                goto WRITE_WHITESPACE;
+            }
+#endif
+
+#if NET6_0_OR_GREATER
+            // .NET 6, better than ToString
+            if (value is ISpanFormattable)
+            {
+                bytesWritten = AppendSpanFormattable(value, format);
+                goto WRITE_WHITESPACE;
+            }
+#endif
+
+            // String fallbacks
+            string? s;
+            if (value is IFormattable)
+            {
+                s = ((IFormattable)value).ToString(format, formatProvider);
+            }
+            else
+            {
+                s = value?.ToString();
+            }
+
+            bytesWritten = AppendString(s.AsSpan());
+
+        WRITE_WHITESPACE:
+            if (alignment != 0)
+            {
+                var space = bytesWritten + alignment;
+                if (space < 0)
+                {
+                    AppendWhitespace(-space);
+                }
+            }
+        }
+        else
+        {
+            // add left whitespace
+            // first, write to temp buffer
+            using var buffer = Utf8String.CreateBuilder(out var builder);
+            builder.AppendFormatted(value, 0, format); // no alignment
+            builder.Flush();
+
+            var bytesWritten = buffer.WrittenCount;
+
+            var space = alignment - bytesWritten;
+            if (space > 0)
+            {
+                AppendWhitespace(space);
+            }
+
+            TryGrow(bytesWritten);
+            buffer.WrittenSpan.CopyTo(destination);
+            destination = destination.Slice(bytesWritten);
+            currentWritten += bytesWritten;
+        }
+    }
+
+    int AppendSpanFormattable<T>(T value, string? format)
+    {
+        Debug.Assert(value is ISpanFormattable);
+
+        Span<char> charDest = stackalloc char[256];
+        var charWritten = 0;
+        while (!((ISpanFormattable)value).TryFormat(charDest, out charWritten, format, formatProvider))
+        {
+            if (charDest.Length < 512)
+            {
+                charDest = stackalloc char[charDest.Length * 2];
+            }
+            else
+            {
+                charDest = new char[charDest.Length * 2]; // too large
+            }
+        }
+
+        var count = Encoding.UTF8.GetByteCount(charDest.Slice(0, charWritten));
+        TryGrow(count);
+        var bytesWritten = Encoding.UTF8.GetBytes(charDest, destination);
+        destination = destination.Slice(bytesWritten);
+        currentWritten += bytesWritten;
+        return bytesWritten;
+    }
+
+#if NET8_0_OR_GREATER
+
+    int AppendEnum<T>(T value, string? format)
+    {
+        // Enum.TryFormat is constrained, TryWriteInterpolatedStringHandler uses unsconstrained version internally.
+        Span<byte> dest = stackalloc byte[256];
+        var written = 0;
+        while (!Utf8.TryWrite(dest, formatProvider, $"{value}", out written))
+        {
+            if (dest.Length < 512)
+            {
+                dest = stackalloc byte[dest.Length * 2];
+            }
+            else
+            {
+                dest = new byte[dest.Length * 2]; // too large
+            }
+        }
+
+        AppendUtf8(dest.Slice(0, written));
+        return written;
     }
 
 #endif

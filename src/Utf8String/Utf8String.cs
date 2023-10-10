@@ -37,16 +37,16 @@ public static class Utf8String
 
     // Builder API
 
-    public static Utf8StringBuilder<TBufferWriter> CreateBuilder<TBufferWriter>(TBufferWriter bufferWriter)
+    public static Utf8StringBuilder<TBufferWriter> CreateBuilder<TBufferWriter>(TBufferWriter bufferWriter, IFormatProvider? formatProvider = null)
         where TBufferWriter : IBufferWriter<byte>
     {
-        return new Utf8StringBuilder<TBufferWriter>(0, 0, bufferWriter);
+        return new Utf8StringBuilder<TBufferWriter>(0, 0, bufferWriter, formatProvider);
     }
 
-    public static Utf8StringBuffer CreateBuilder(out Utf8StringBuilder<ArrayBufferWriter<byte>> builder)
+    public static Utf8StringBuffer CreateBuilder(out Utf8StringBuilder<ArrayBufferWriter<byte>> builder, IFormatProvider? formatProvider = null)
     {
         var writer = ArrayBufferWriterPool.Rent();
-        builder = new Utf8StringBuilder<ArrayBufferWriter<byte>>(0, 0, writer);
+        builder = new Utf8StringBuilder<ArrayBufferWriter<byte>>(0, 0, writer, formatProvider);
         return new Utf8StringBuffer(writer);
     }
 
@@ -75,10 +75,7 @@ public static class Utf8String
         }
     }
 
-#if NET8_0_OR_GREATER
-
     public static byte[] Concat<T>(IEnumerable<T> values)
-        where T : IUtf8SpanFormattable
     {
         using var buffer = CreateBuilder(out var builder);
         foreach (var item in values)
@@ -91,7 +88,6 @@ public static class Utf8String
 
     public static void Concat<TBufferWriter, T>(TBufferWriter bufferWriter, IEnumerable<T> values)
         where TBufferWriter : IBufferWriter<byte>
-        where T : IUtf8SpanFormattable
     {
         using var builder = CreateBuilder(bufferWriter); // Dispose calls Flush
         foreach (var item in values)
@@ -99,8 +95,6 @@ public static class Utf8String
             builder.AppendFormatted(item);
         }
     }
-
-#endif
 
     // Join, byte[], TBufferWriter
 
@@ -158,10 +152,7 @@ public static class Utf8String
         }
     }
 
-#if NET8_0_OR_GREATER
-
     public static byte[] Join<T>(string separator, IEnumerable<T> values)
-        where T : IUtf8SpanFormattable
     {
         using var buffer = CreateBuilder(out var builder);
 
@@ -191,7 +182,6 @@ public static class Utf8String
 
     public static void Join<TBufferWriter, T>(TBufferWriter bufferWriter, string separator, IEnumerable<T> values)
         where TBufferWriter : IBufferWriter<byte>
-        where T : IUtf8SpanFormattable
     {
         using var builder = CreateBuilder(bufferWriter); // Dispose calls Flush
 
@@ -215,6 +205,4 @@ public static class Utf8String
             builder.AppendFormatted(item);
         }
     }
-
-#endif
 }
