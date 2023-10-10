@@ -1,10 +1,13 @@
-﻿using System;
+﻿
+using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.IO.Pipelines;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Utf8StringInterpolation;
 
 namespace ConsoleApp;
@@ -26,8 +29,6 @@ internal class ReadMeSample
         var pipeWriter = PipeWriter.Create(fs);
         Utf8String.Format(pipeWriter, $"Foo: {id,10} {name,-5}"); // support alignment
 
-        
-
         // like StringBuilder
         var writer = Utf8String.CreateWriter(bufferWriter);
         writer.Append("My Name...");
@@ -39,7 +40,71 @@ internal class ReadMeSample
         var seq = Enumerable.Range(1, 10);
         byte[] utf8seq = Utf8String.Join(", ", seq);
 
+
+
     }
+
+    void GettingStarted(string name, int id)
+    {
+
+
+        // `Format(ref Utf8StringWriter)` accepts string interpolation
+        Utf8String.Format($"Hello, {name}, Your id is {id}!");
+
+
+
+        // Interpolated string compiles like following.
+        var writer = new Utf8StringWriter<ArrayBufferWriter<byte>>(literalLength: 20, formattedCount: 2);
+        writer.AppendLiteral("Hello, ");
+        writer.AppendFormatted<string>(name);
+        writer.AppendLiteral(", You id is ");
+        writer.AppendFormatted<int>(id);
+        writer.AppendLiteral("!");
+
+
+    }
+
+    class Dummy
+    {
+#pragma warning disable CS0282
+
+        [InterpolatedStringHandler]
+        public ref partial struct Utf8StringWriter<TBufferWriter>
+            where TBufferWriter : IBufferWriter<byte>
+        {
+            TBufferWriter bufferWriter; // when buffer is full, advance and get more buffer
+            Span<byte> buffer;          // current write buffer
+
+            public void AppendFormatted<T>(T value, int alignment = 0, string? format = null)
+                where T : IUtf8SpanFormattable
+            {
+                // write value to Utf8 buffer directly
+                var bytesWritten = 0;
+                while (!value.TryFormat(buffer, out bytesWritten, format, provider))
+                {
+                    Grow();
+                }
+                buffer = buffer.Slice(bytesWritten);
+            }
+        }
+
+
+        public ref partial struct Utf8StringWriter<TBufferWriter> where TBufferWriter : IBufferWriter<byte>
+        {
+            IFormatProvider provider;
+            void Grow() { }
+
+
+            public void AppendLiteral(string value)
+            {
+                // encode string literal to Utf8 buffer directly
+                var bytesWritten = Encoding.UTF8.GetBytes(value, buffer);
+                buffer = buffer.Slice(bytesWritten);
+            }
+
+        }
+    }
+
 
 
     void WriterSample()
@@ -79,12 +144,12 @@ internal class ReadMeSample
 
     void Formatting()
     {
-            // .NET 8 supports all numeric custom format string but .NET Standard 2.1, .NET 6(.NET 7) does not.
-            Utf8String.Format($"Double value is {123.456789:.###}");
+        // .NET 8 supports all numeric custom format string but .NET Standard 2.1, .NET 6(.NET 7) does not.
+        Utf8String.Format($"Double value is {123.456789:.###}");
 
-            // DateTime, DateTimeOffset, TimeSpan support custom format string on all target plaftorms.
-            // https://learn.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings
-            Utf8String.Format($"Today is {DateTime.Now:yyyy-MM-dd}");
+        // DateTime, DateTimeOffset, TimeSpan support custom format string on all target plaftorms.
+        // https://learn.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings
+        Utf8String.Format($"Today is {DateTime.Now:yyyy-MM-dd}");
 
 
     }
