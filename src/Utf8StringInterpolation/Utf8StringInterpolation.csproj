@@ -8,7 +8,7 @@
 		
 		<NoWarn>$(NoWarn);CS1591;CA2255</NoWarn>
 		<PackageTags>string</PackageTags>
-		<Description>Successor of ZString; UTF8 based String Interpolation and StringBuilder.</Description>
+		<Description>Successor of ZString; UTF8 based zero allocation high-peformance String Interpolation and StringBuilder.</Description>
 	</PropertyGroup>
 
 	<ItemGroup>
