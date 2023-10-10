@@ -109,8 +109,6 @@ public static class Utf8String
         var first = true;
         foreach (var item in values)
         {
-            if (item == null) continue;
-
             if (first)
             {
                 first = false;
@@ -119,7 +117,7 @@ public static class Utf8String
             {
                 builder.AppendUtf8(utf8Separator);
             }
-            builder.AppendLiteral(item);
+            builder.Append(item);
         }
 
         builder.Flush();
@@ -138,8 +136,6 @@ public static class Utf8String
         var first = true;
         foreach (var item in values)
         {
-            if (item == null) continue;
-
             if (first)
             {
                 first = false;
@@ -148,7 +144,7 @@ public static class Utf8String
             {
                 builder.AppendUtf8(utf8Separator);
             }
-            builder.AppendLiteral(item);
+            builder.Append(item);
         }
     }
 
@@ -163,8 +159,6 @@ public static class Utf8String
         var first = true;
         foreach (var item in values)
         {
-            if (item == null) continue;
-
             if (first)
             {
                 first = false;
@@ -192,8 +186,6 @@ public static class Utf8String
         var first = true;
         foreach (var item in values)
         {
-            if (item == null) continue;
-
             if (first)
             {
                 first = false;

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using Xunit;
 
-namespace ZStringTests
+namespace Cysharp.Text.Tests
 {
     public enum MoreMyEnum
     {
@@ -150,8 +150,7 @@ namespace ZStringTests
             using (var buffer = Utf8String.CreateBuilder(out var sb1))
             {
                 var sb5 = new StringBuilder();
-                // TODO: AppendEnum impl
-                // sb1.AppendFormatted(x); sb1.AppendFormatted(y);
+                sb1.AppendFormatted(x); sb1.AppendFormatted(y);
                 sb5.Append(x); sb5.Append(y);
 
                 sb1.Flush();

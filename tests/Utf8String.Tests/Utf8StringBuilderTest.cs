@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using Xunit;
 
-namespace ZStringTests
+namespace Cysharp.Text.Tests
 {
     public class Utf8StringBuilderTest
     {
@@ -19,7 +19,7 @@ namespace ZStringTests
                 var text = "foo";
                 zsb.AppendLiteral(text);
                 var bcl = new StringBuilder(text);
-                
+
                 // ASCII
                 zsb.Append('\x7F', 10);
                 bcl.Append('\x7F', 10);

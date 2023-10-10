@@ -1,17 +1,6 @@
-﻿using Cysharp.Text;
-using FluentAssertions;
-using FluentAssertions.Primitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Xunit;
-
-namespace ZStringTests
+﻿namespace Cysharp.Text.Tests
 {
-#if NET8_0_OR_GREATER
 
-    
 
     public class JoinTest
     {
@@ -47,25 +36,25 @@ namespace ZStringTests
             Utf8String.Join("_,_", new[] { 1, 2 }.ToList()).Should().Be(string.Join("_,_", new[] { 1, 2 }));
             Utf8String.Join("_,_", new[] { 1, 2, 3 }.ToList()).Should().Be(string.Join("_,_", new[] { 1, 2, 3 }));
 
-            Utf8String.Join("_,_", (IList<int>)new int[] { }).Should().Be(string.Join("_,_", new string[0]));
-            Utf8String.Join("_,_", (IList<int>)new[] { 1 }).Should().Be(string.Join("_,_", new[] { 1 }));
-            Utf8String.Join("_,_", (IList<int>)new[] { 1, 2 }).Should().Be(string.Join("_,_", new[] { 1, 2 }));
-            Utf8String.Join("_,_", (IList<int>)new[] { 1, 2, 3 }).Should().Be(string.Join("_,_", new[] { 1, 2, 3 }));
+            Utf8String.Join("_,_", new int[] { }).Should().Be(string.Join("_,_", new string[0]));
+            Utf8String.Join("_,_", new[] { 1 }).Should().Be(string.Join("_,_", new[] { 1 }));
+            Utf8String.Join("_,_", new[] { 1, 2 }).Should().Be(string.Join("_,_", new[] { 1, 2 }));
+            Utf8String.Join("_,_", new[] { 1, 2, 3 }).Should().Be(string.Join("_,_", new[] { 1, 2, 3 }));
 
-            Utf8String.Join("_,_", (IReadOnlyList<int>)new int[] { }).Should().Be(string.Join("_,_", new string[0]));
-            Utf8String.Join("_,_", (IReadOnlyList<int>)new[] { 1 }).Should().Be(string.Join("_,_", new[] { 1 }));
-            Utf8String.Join("_,_", (IReadOnlyList<int>)new[] { 1, 2 }).Should().Be(string.Join("_,_", new[] { 1, 2 }));
-            Utf8String.Join("_,_", (IReadOnlyList<int>)new[] { 1, 2, 3 }).Should().Be(string.Join("_,_", new[] { 1, 2, 3 }));
+            Utf8String.Join("_,_", new int[] { }).Should().Be(string.Join("_,_", new string[0]));
+            Utf8String.Join("_,_", new[] { 1 }).Should().Be(string.Join("_,_", new[] { 1 }));
+            Utf8String.Join("_,_", new[] { 1, 2 }).Should().Be(string.Join("_,_", new[] { 1, 2 }));
+            Utf8String.Join("_,_", new[] { 1, 2, 3 }).Should().Be(string.Join("_,_", new[] { 1, 2, 3 }));
 
-            Utf8String.Join("_,_", (ICollection<int>)new int[] { }).Should().Be(string.Join("_,_", new string[0]));
-            Utf8String.Join("_,_", (ICollection<int>)new[] { 1 }).Should().Be(string.Join("_,_", new[] { 1 }));
-            Utf8String.Join("_,_", (ICollection<int>)new[] { 1, 2 }).Should().Be(string.Join("_,_", new[] { 1, 2 }));
-            Utf8String.Join("_,_", (ICollection<int>)new[] { 1, 2, 3 }).Should().Be(string.Join("_,_", new[] { 1, 2, 3 }));
+            Utf8String.Join("_,_", new int[] { }).Should().Be(string.Join("_,_", new string[0]));
+            Utf8String.Join("_,_", new[] { 1 }).Should().Be(string.Join("_,_", new[] { 1 }));
+            Utf8String.Join("_,_", new[] { 1, 2 }).Should().Be(string.Join("_,_", new[] { 1, 2 }));
+            Utf8String.Join("_,_", new[] { 1, 2, 3 }).Should().Be(string.Join("_,_", new[] { 1, 2, 3 }));
 
-            Utf8String.Join("_,_", (IReadOnlyCollection<int>)new int[] { }).Should().Be(string.Join("_,_", new string[0]));
-            Utf8String.Join("_,_", (IReadOnlyCollection<int>)new[] { 1 }).Should().Be(string.Join("_,_", new[] { 1 }));
-            Utf8String.Join("_,_", (IReadOnlyCollection<int>)new[] { 1, 2 }).Should().Be(string.Join("_,_", new[] { 1, 2 }));
-            Utf8String.Join("_,_", (IReadOnlyCollection<int>)new[] { 1, 2, 3 }).Should().Be(string.Join("_,_", new[] { 1, 2, 3 }));
+            Utf8String.Join("_,_", new int[] { }).Should().Be(string.Join("_,_", new string[0]));
+            Utf8String.Join("_,_", new[] { 1 }).Should().Be(string.Join("_,_", new[] { 1 }));
+            Utf8String.Join("_,_", new[] { 1, 2 }).Should().Be(string.Join("_,_", new[] { 1, 2 }));
+            Utf8String.Join("_,_", new[] { 1, 2, 3 }).Should().Be(string.Join("_,_", new[] { 1, 2, 3 }));
         }
 
         [Fact]
@@ -76,32 +65,32 @@ namespace ZStringTests
             Utf8String.Join(",", new[] { 1, 2 }.ToList()).Should().Be(string.Join(',', new[] { 1, 2 }));
             Utf8String.Join(",", new[] { 1, 2, 3 }.ToList()).Should().Be(string.Join(',', new[] { 1, 2, 3 }));
 
-            Utf8String.Join(",", (IList<int>)new int[] { }).Should().Be(string.Join(',', new string[0]));
-            Utf8String.Join(",", (IList<int>)new[] { 1 }).Should().Be(string.Join(',', new[] { 1 }));
-            Utf8String.Join(",", (IList<int>)new[] { 1, 2 }).Should().Be(string.Join(',', new[] { 1, 2 }));
-            Utf8String.Join(",", (IList<int>)new[] { 1, 2, 3 }).Should().Be(string.Join(',', new[] { 1, 2, 3 }));
+            Utf8String.Join(",", new int[] { }).Should().Be(string.Join(',', new string[0]));
+            Utf8String.Join(",", new[] { 1 }).Should().Be(string.Join(',', new[] { 1 }));
+            Utf8String.Join(",", new[] { 1, 2 }).Should().Be(string.Join(',', new[] { 1, 2 }));
+            Utf8String.Join(",", new[] { 1, 2, 3 }).Should().Be(string.Join(',', new[] { 1, 2, 3 }));
 
-            Utf8String.Join(",", (IReadOnlyList<int>)new int[] { }).Should().Be(string.Join(',', new string[0]));
-            Utf8String.Join(",", (IReadOnlyList<int>)new[] { 1 }).Should().Be(string.Join(',', new[] { 1 }));
-            Utf8String.Join(",", (IReadOnlyList<int>)new[] { 1, 2 }).Should().Be(string.Join(',', new[] { 1, 2 }));
-            Utf8String.Join(",", (IReadOnlyList<int>)new[] { 1, 2, 3 }).Should().Be(string.Join(',', new[] { 1, 2, 3 }));
+            Utf8String.Join(",", new int[] { }).Should().Be(string.Join(',', new string[0]));
+            Utf8String.Join(",", new[] { 1 }).Should().Be(string.Join(',', new[] { 1 }));
+            Utf8String.Join(",", new[] { 1, 2 }).Should().Be(string.Join(',', new[] { 1, 2 }));
+            Utf8String.Join(",", new[] { 1, 2, 3 }).Should().Be(string.Join(',', new[] { 1, 2, 3 }));
 
-            Utf8String.Join(",", (ICollection<int>)new int[] { }).Should().Be(string.Join(',', new string[0]));
-            Utf8String.Join(",", (ICollection<int>)new[] { 1 }).Should().Be(string.Join(',', new[] { 1 }));
-            Utf8String.Join(",", (ICollection<int>)new[] { 1, 2 }).Should().Be(string.Join(',', new[] { 1, 2 }));
-            Utf8String.Join(",", (ICollection<int>)new[] { 1, 2, 3 }).Should().Be(string.Join(',', new[] { 1, 2, 3 }));
+            Utf8String.Join(",", new int[] { }).Should().Be(string.Join(',', new string[0]));
+            Utf8String.Join(",", new[] { 1 }).Should().Be(string.Join(',', new[] { 1 }));
+            Utf8String.Join(",", new[] { 1, 2 }).Should().Be(string.Join(',', new[] { 1, 2 }));
+            Utf8String.Join(",", new[] { 1, 2, 3 }).Should().Be(string.Join(',', new[] { 1, 2, 3 }));
 
-            Utf8String.Join(",", (IReadOnlyCollection<int>)new int[] { }).Should().Be(string.Join(',', new string[0]));
-            Utf8String.Join(",", (IReadOnlyCollection<int>)new[] { 1 }).Should().Be(string.Join(',', new[] { 1 }));
-            Utf8String.Join(",", (IReadOnlyCollection<int>)new[] { 1, 2 }).Should().Be(string.Join(',', new[] { 1, 2 }));
-            Utf8String.Join(",", (IReadOnlyCollection<int>)new[] { 1, 2, 3 }).Should().Be(string.Join(',', new[] { 1, 2, 3 }));
+            Utf8String.Join(",", new int[] { }).Should().Be(string.Join(',', new string[0]));
+            Utf8String.Join(",", new[] { 1 }).Should().Be(string.Join(',', new[] { 1 }));
+            Utf8String.Join(",", new[] { 1, 2 }).Should().Be(string.Join(',', new[] { 1, 2 }));
+            Utf8String.Join(",", new[] { 1, 2, 3 }).Should().Be(string.Join(',', new[] { 1, 2, 3 }));
         }
 
         [Fact]
         public void CooncatNullTest()
         {
-            var str = Utf8String.Concat(default(string), "foo", "bar");
-            str.Should().Be(string.Concat(default(string), "foo", "bar"));
+            var str = Utf8String.Concat(default, "foo", "bar");
+            str.Should().Be(string.Concat(default, "foo", "bar"));
         }
 
         [Fact]
@@ -151,5 +140,4 @@ namespace ZStringTests
         }
     }
 
-#endif
 }

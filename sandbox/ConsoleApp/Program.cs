@@ -10,6 +10,16 @@ using System.Text;
 
 
 
+var format = "Prime numbers less than 10: {00 , 01 }, {01  ,02  }, {2,3:D}, {3  ,4: X }";
+var expected = string.Format(format, 2, 3, 5, 7);
+
+Console.WriteLine(expected);
+
+//var actual = Utf8String.Format($"Prime numbers less than 10: {2,01}, {3,02}, {5,3:D}, {7,4: X}");
+//actual.Should().Be(expected);
+
+
+
 
 // true.TryFormat
 
@@ -17,9 +27,9 @@ using System.Text;
 
 
 
-var bytes = Utf8String.Format($"foo{'あ',-10}Bar");
+//var bytes = Utf8String.Format($"foo{DateTime.Now:yy,あ:mm,:dd}Bar");
 
-Console.WriteLine(Encoding.UTF8.GetString(bytes));
+//Console.WriteLine(Encoding.UTF8.GetString(bytes));
 
 //var i = 100;
 //Utf8String.Format(writer, $"Today {DateTime.Now:O}.");

@@ -1,12 +1,12 @@
 ﻿#pragma warning disable CA2014 // Do not use stackalloc in loops
 
 using System.Buffers;
-using System.Buffers.Text;
 using System.Diagnostics;
-using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
+#if NET6_0_OR_GREATER
 using System.Text.Unicode;
+#endif
 
 namespace Cysharp.Text;
 
@@ -87,8 +87,9 @@ public ref partial struct Utf8StringBuilder<TBufferWriter>
         currentWritten += count;
     }
 
-    public void Append(string s)
+    public void Append(string? s)
     {
+        if (s == null) return;
         AppendLiteral(s);
     }
 
@@ -114,7 +115,7 @@ public ref partial struct Utf8StringBuilder<TBufferWriter>
         }
         else
         {
-            var encodedChar = ys.Slice(written);
+            var encodedChar = ys.Slice(0, written);
             var total = repeatCount * written;
             TryGrow(total);
             for (int i = 0; i < repeatCount; i++)
@@ -252,6 +253,7 @@ public ref partial struct Utf8StringBuilder<TBufferWriter>
             }
 
             bytesWritten = AppendString(s.AsSpan());
+            goto WRITE_WHITESPACE;
 
         WRITE_WHITESPACE:
             if (alignment != 0)
@@ -286,6 +288,8 @@ public ref partial struct Utf8StringBuilder<TBufferWriter>
         }
     }
 
+#if NET6_0_OR_GREATER
+
     int AppendSpanFormattable<T>(T value, string? format)
     {
         Debug.Assert(value is ISpanFormattable);
@@ -306,11 +310,13 @@ public ref partial struct Utf8StringBuilder<TBufferWriter>
 
         var count = Encoding.UTF8.GetByteCount(charDest.Slice(0, charWritten));
         TryGrow(count);
-        var bytesWritten = Encoding.UTF8.GetBytes(charDest, destination);
+        var bytesWritten = Encoding.UTF8.GetBytes(charDest.Slice(0, charWritten), destination);
         destination = destination.Slice(bytesWritten);
         currentWritten += bytesWritten;
         return bytesWritten;
     }
+
+#endif
 
 #if NET8_0_OR_GREATER
 
