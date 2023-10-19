@@ -208,6 +208,13 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
         }
     }
 
+    public void AppendFormatted<T>(Nullable<T> value, int alignment = 0, string? format = null)
+        where T : struct
+    {
+        if (value == null) return;
+        AppendFormatted(value.Value, alignment, format);
+    }
+
     public void AppendFormatted<T>(T value, int alignment = 0, string? format = null)
     {
         // no alignment or add right whitespace

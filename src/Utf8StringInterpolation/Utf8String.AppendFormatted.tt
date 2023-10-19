@@ -32,6 +32,13 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 <#= (x.type is not "bool" or "char") ? "#if !NET8_0_OR_GREATER" : "# if true" #>
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void AppendFormatted(<#= x.type #>? value, int alignment = 0, string? format = null)
+    {
+        if (value == null) return;
+        AppendFormatted(value.Value, alignment, format);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(<#= x.type #> value, int alignment = 0, string? format = null)
     {
         if (alignment == 0)

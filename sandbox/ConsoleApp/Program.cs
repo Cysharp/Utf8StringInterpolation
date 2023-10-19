@@ -9,10 +9,11 @@ using Utf8StringInterpolation;
 
 //Console.WriteLine($"Foo{100,5}Bar");
 
-var a= Utf8String.Format($"Double value is {123.456789:.###}");
-var b = Utf8String.Format($"Today is {DateTime.Now:yyyy-MM-dd}");
-Console.WriteLine( Encoding.UTF8.GetString(a));
-Console.WriteLine( Encoding.UTF8.GetString(b));
+int? foo = 23;
+
+// var a = foo.GetType();
+
+var test = Utf8String.Format($"foo{foo}");
 
 //var actual = Utf8String.Format($"Prime numbers less than 10: {2,01}, {3,02}, {5,3:D}, {7,4: X}");
 //actual.Should().Be(expected);
