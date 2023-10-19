@@ -1,9 +1,4 @@
-using FluentAssertions;
-using System;
-using System.Buffers;
 using System.Numerics;
-using System.Text;
-using Xunit;
 
 namespace Utf8StringInterpolation.Tests
 {
