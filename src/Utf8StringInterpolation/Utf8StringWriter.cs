@@ -179,7 +179,19 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
             var buffer = rentArray.AsSpan();
             var bytesWritten = Encoding.UTF8.GetBytes(value.AsSpan(), buffer);
 
-            var space = alignment - bytesWritten;
+            int charCount;
+#if NETSTANDARD2_0
+            unsafe
+            {
+                fixed (byte* ptr = &buffer[0])
+                {
+                    charCount = Encoding.UTF8.GetCharCount(ptr, bytesWritten);
+                }
+            }
+#else            
+            charCount = Encoding.UTF8.GetCharCount(buffer.Slice(0, bytesWritten));
+#endif
+            var space = alignment - charCount;
             if (space > 0)
             {
                 AppendWhitespace(space);
@@ -190,7 +202,6 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
             destination = destination.Slice(bytesWritten);
             currentWritten += bytesWritten;
             ArrayPool<byte>.Shared.Return(rentArray);
-            return;
         }
         else
         {
@@ -198,10 +209,23 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
             var max = GetStringByteCount(value.AsSpan());
             TryGrow(max);
             var bytesWritten = Encoding.UTF8.GetBytes(value.AsSpan(), destination);
+
+            int charCount;
+#if NETSTANDARD2_0
+            unsafe
+            {
+                fixed (byte* ptr = &destination[currentWritten])
+                {
+                    charCount = Encoding.UTF8.GetCharCount(ptr, bytesWritten);
+                }
+            }
+#else
+            charCount = Encoding.UTF8.GetCharCount(destination.Slice(0, bytesWritten));
+#endif
             destination = destination.Slice(bytesWritten);
             currentWritten += bytesWritten;
 
-            var space = bytesWritten + alignment;
+            var space = charCount + alignment;
             if (space < 0)
             {
                 AppendWhitespace(-space);

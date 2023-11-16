@@ -86,5 +86,12 @@ namespace Utf8StringInterpolation.Tests
             Utf8String.Format($"\u30cf\u30fc\u30c8: {"\u2764"}, \u5bb6\u65cf: {"\uD83D\uDC69\u200D\uD83D\uDC69\u200D\uD83D\uDC67\u200D\uD83D\uDC67"}(\u7d75\u6587\u5b57)")
                  .Should().Be($"\u30cf\u30fc\u30c8: {"\u2764"}, \u5bb6\u65cf: {"\uD83D\uDC69\u200D\uD83D\uDC69\u200D\uD83D\uDC67\u200D\uD83D\uDC67"}(\u7d75\u6587\u5b57)");
         }
+
+        [Fact]
+        public void MultibyteStringAlignment()
+        {
+            Utf8String.Format($"abc{"あいう",10}").Should().Be($"abc{"あいう",10}");
+            Utf8String.Format($"def{"えおか",-10}").Should().Be($"def{"えおか",-10}");
+        }
     }
 }
