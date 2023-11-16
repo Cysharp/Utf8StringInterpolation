@@ -37,7 +37,7 @@ Modern C# treats `ReadOnlySpan<byte>` as Utf8. Additionally, modern C# writes to
 
 ## Getting Started
 
-This library is distributed via NuGet, supporting `.NET Standard 2.1`, `.NET 6(.NET 7)` and `.NET 8` or above.
+This library is distributed via NuGet, supporting `.NET Standard 2.0`, `.NET Standard 2.1`, `.NET 6(.NET 7)` and `.NET 8` or above.
 
 PM> Install-Package [Utf8StringInterpolation](https://www.nuget.org/packages/Utf8StringInterpolation)
 
