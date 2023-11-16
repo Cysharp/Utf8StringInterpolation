@@ -1,10 +1,4 @@
-﻿#if NET6_0_OR_GREATER || NETSTANDARD2_1
-
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(System.Buffers.ArrayBufferWriter<>))]
-
-#else
-
+﻿#if !NET6_0_OR_GREATER && !NETSTANDARD2_1_OR_GREATER
 using System;
 using System.Diagnostics;
 
@@ -252,5 +246,4 @@ namespace System.Buffers
 		}
 	}
 }
-
 #endif
