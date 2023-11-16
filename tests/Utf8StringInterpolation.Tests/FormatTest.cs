@@ -37,6 +37,16 @@ namespace Utf8StringInterpolation.Tests
             Utf8String.Format($"abc{guid}def{(Guid?)null}ghi").Should().Be($"abc{guid}def{(Guid?)null}ghi");
             Utf8String.Format($"abc{(double?)Math.PI:e}def{(double?)null:e}ghi").Should().Be($"abc{(double?)Math.PI:e}def{(double?)null:e}ghi");
         }
+        
+        [Fact]
+        public void NullableWithAlignment()
+        {
+            var guid = (Guid?)Guid.NewGuid();
+            Utf8String.Format($"abc{(int?)100,10}def{(int?)null,10}ghi").Should().Be($"abc{(int?)100,10}def{(int?)null,10}ghi");
+            Utf8String.Format($"abc{(int?)100,-5:X}def{(int?)null,-5:X}ghi").Should().Be($"abc{(int?)100,-5:X}def{(int?)null,-5:X}ghi");
+            Utf8String.Format($"abc{guid}def{(Guid?)null,10}ghi").Should().Be($"abc{guid}def{(Guid?)null,10}ghi");
+            Utf8String.Format($"abc{(double?)null,5}def{(double?)null,5:e}ghi").Should().Be($"abc{(double?)null,5}def{(double?)null,5:e}ghi");
+        }
 
         [Fact]
         public void Comment()

@@ -212,7 +212,14 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     public void AppendFormatted<T>(Nullable<T> value, int alignment = 0, string? format = null)
         where T : struct
     {
-        if (value == null) return;
+        if (value == null)
+        {
+            if (alignment != 0)
+            {
+                AppendFormatted("", alignment);
+            }
+            return;
+        }
         AppendFormatted(value.Value, alignment, format);
     }
 

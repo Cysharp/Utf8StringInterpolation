@@ -34,7 +34,14 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(<#= x.type #>? value, int alignment = 0, string? format = null)
     {
-        if (value == null) return;
+        if (value == null) 
+        {
+            if (alignment != 0)
+            {
+                AppendFormatted("", alignment); // write only alignment
+            }
+            return;
+        }
         AppendFormatted(value.Value, alignment, format);
     }
 
