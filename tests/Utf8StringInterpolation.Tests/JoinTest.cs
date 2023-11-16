@@ -61,29 +61,29 @@
         public void JoinOverloads3()
         {
             // Utf8String.Join(",", new string[] { }.ToList()).Should().Be(string.Join(',', new string[0]));
-            Utf8String.Join(",", new[] { 1 }.ToList()).Should().Be(string.Join(',', new[] { 1 }));
-            Utf8String.Join(",", new[] { 1, 2 }.ToList()).Should().Be(string.Join(',', new[] { 1, 2 }));
-            Utf8String.Join(",", new[] { 1, 2, 3 }.ToList()).Should().Be(string.Join(',', new[] { 1, 2, 3 }));
+            Utf8String.Join(",", new[] { 1 }.ToList()).Should().Be(Shims.Join(',', new[] { 1 }));
+            Utf8String.Join(",", new[] { 1, 2 }.ToList()).Should().Be(Shims.Join(',', new[] { 1, 2 }));
+            Utf8String.Join(",", new[] { 1, 2, 3 }.ToList()).Should().Be(Shims.Join(',', new[] { 1, 2, 3 }));
 
-            Utf8String.Join(",", new int[] { }).Should().Be(string.Join(',', new string[0]));
-            Utf8String.Join(",", new[] { 1 }).Should().Be(string.Join(',', new[] { 1 }));
-            Utf8String.Join(",", new[] { 1, 2 }).Should().Be(string.Join(',', new[] { 1, 2 }));
-            Utf8String.Join(",", new[] { 1, 2, 3 }).Should().Be(string.Join(',', new[] { 1, 2, 3 }));
+            Utf8String.Join(",", new int[] { }).Should().Be(Shims.Join(',', new string[0]));
+            Utf8String.Join(",", new[] { 1 }).Should().Be(Shims.Join(',', new[] { 1 }));
+            Utf8String.Join(",", new[] { 1, 2 }).Should().Be(Shims.Join(',', new[] { 1, 2 }));
+            Utf8String.Join(",", new[] { 1, 2, 3 }).Should().Be(Shims.Join(',', new[] { 1, 2, 3 }));
 
-            Utf8String.Join(",", new int[] { }).Should().Be(string.Join(',', new string[0]));
-            Utf8String.Join(",", new[] { 1 }).Should().Be(string.Join(',', new[] { 1 }));
-            Utf8String.Join(",", new[] { 1, 2 }).Should().Be(string.Join(',', new[] { 1, 2 }));
-            Utf8String.Join(",", new[] { 1, 2, 3 }).Should().Be(string.Join(',', new[] { 1, 2, 3 }));
+            Utf8String.Join(",", new int[] { }).Should().Be(Shims.Join(',', new string[0]));
+            Utf8String.Join(",", new[] { 1 }).Should().Be(Shims.Join(',', new[] { 1 }));
+            Utf8String.Join(",", new[] { 1, 2 }).Should().Be(Shims.Join(',', new[] { 1, 2 }));
+            Utf8String.Join(",", new[] { 1, 2, 3 }).Should().Be(Shims.Join(',', new[] { 1, 2, 3 }));
 
-            Utf8String.Join(",", new int[] { }).Should().Be(string.Join(',', new string[0]));
-            Utf8String.Join(",", new[] { 1 }).Should().Be(string.Join(',', new[] { 1 }));
-            Utf8String.Join(",", new[] { 1, 2 }).Should().Be(string.Join(',', new[] { 1, 2 }));
-            Utf8String.Join(",", new[] { 1, 2, 3 }).Should().Be(string.Join(',', new[] { 1, 2, 3 }));
+            Utf8String.Join(",", new int[] { }).Should().Be(Shims.Join(',', new string[0]));
+            Utf8String.Join(",", new[] { 1 }).Should().Be(Shims.Join(',', new[] { 1 }));
+            Utf8String.Join(",", new[] { 1, 2 }).Should().Be(Shims.Join(',', new[] { 1, 2 }));
+            Utf8String.Join(",", new[] { 1, 2, 3 }).Should().Be(Shims.Join(',', new[] { 1, 2, 3 }));
 
-            Utf8String.Join(",", new int[] { }).Should().Be(string.Join(',', new string[0]));
-            Utf8String.Join(",", new[] { 1 }).Should().Be(string.Join(',', new[] { 1 }));
-            Utf8String.Join(",", new[] { 1, 2 }).Should().Be(string.Join(',', new[] { 1, 2 }));
-            Utf8String.Join(",", new[] { 1, 2, 3 }).Should().Be(string.Join(',', new[] { 1, 2, 3 }));
+            Utf8String.Join(",", new int[] { }).Should().Be(Shims.Join(',', new string[0]));
+            Utf8String.Join(",", new[] { 1 }).Should().Be(Shims.Join(',', new[] { 1 }));
+            Utf8String.Join(",", new[] { 1, 2 }).Should().Be(Shims.Join(',', new[] { 1, 2 }));
+            Utf8String.Join(",", new[] { 1, 2, 3 }).Should().Be(Shims.Join(',', new[] { 1, 2, 3 }));
         }
 
         [Fact]
@@ -100,7 +100,7 @@
             var b = new string('b', 1000000);
 
             var actrual = Utf8String.Join(",", new string[] { a, b });
-            var expected = string.Join(',', new string[] { a, b });
+            var expected = Shims.Join(',', new string[] { a, b });
             actrual.Should().Be(expected);
         }
 

@@ -1,11 +1,12 @@
 ﻿#pragma warning disable CA2014 // Do not use stackalloc in loops
 
 using System.Buffers;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Utf8StringInterpolation.Internal;
+
 #if NET6_0_OR_GREATER
+using System.Diagnostics;
 using System.Text.Unicode;
 #endif
 
@@ -173,10 +174,10 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
         // add left whitespace
         if (alignment > 0)
         {
-            var max = GetStringByteCount(value);
+            var max = GetStringByteCount(value.AsSpan());
             var rentArray = ArrayPool<byte>.Shared.Rent(max);
             var buffer = rentArray.AsSpan();
-            var bytesWritten = Encoding.UTF8.GetBytes(value, buffer);
+            var bytesWritten = Encoding.UTF8.GetBytes(value.AsSpan(), buffer);
 
             var space = alignment - bytesWritten;
             if (space > 0)
@@ -194,9 +195,9 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
         else
         {
             // add right whitespace
-            var max = GetStringByteCount(value);
+            var max = GetStringByteCount(value.AsSpan());
             TryGrow(max);
-            var bytesWritten = Encoding.UTF8.GetBytes(value, destination);
+            var bytesWritten = Encoding.UTF8.GetBytes(value.AsSpan(), destination);
             destination = destination.Slice(bytesWritten);
             currentWritten += bytesWritten;
 
