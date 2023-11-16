@@ -214,7 +214,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 #if NETSTANDARD2_0
             unsafe
             {
-                fixed (byte* ptr = &destination[currentWritten])
+                fixed (byte* ptr = &destination[0])
                 {
                     charCount = Encoding.UTF8.GetCharCount(ptr, bytesWritten);
                 }
