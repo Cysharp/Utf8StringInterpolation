@@ -29,7 +29,7 @@ namespace Utf8StringInterpolation;
 public ref partial struct Utf8StringWriter<TBufferWriter>
 {
 <# foreach(var x in generateTypes) { #>
-<#= (x.type is not "bool" or "char") ? "#if !NET8_0_OR_GREATER" : "# if true" #>
+<#= (x.type is not "bool" and not "char") ? "#if !NET8_0_OR_GREATER" : "# if true" #>
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(<#= x.type #>? value, int alignment = 0, string? format = null)
