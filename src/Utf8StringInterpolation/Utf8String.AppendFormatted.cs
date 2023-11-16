@@ -1286,7 +1286,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     }
 #endif
 
-#if !NET8_0_OR_GREATER
+# if true
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(char? value, int alignment = 0, string? format = null)
