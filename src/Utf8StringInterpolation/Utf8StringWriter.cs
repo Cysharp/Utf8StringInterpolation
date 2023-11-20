@@ -417,7 +417,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
         allocatedDestinationSize = destination.Length;
     }
 
-    void ClearState()
+    public void ClearState()
     {
         Flush();
         destination = default;
