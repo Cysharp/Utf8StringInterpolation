@@ -28,9 +28,9 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     IFormatProvider? formatProvider;
     bool calculateStringJustSize;
 
-    internal TBufferWriter GetBufferWriter() => bufferWriter;
-    internal int GetCurrentWritten() => currentWritten;
-    internal int GetAllocatedDestinationSize() => allocatedDestinationSize;
+    public TBufferWriter GetBufferWriter() => bufferWriter;
+    public int GetCurrentWritten() => currentWritten;
+    public int GetAllocatedDestinationSize() => allocatedDestinationSize;
 
     // create directly
     public Utf8StringWriter(TBufferWriter bufferWriter, IFormatProvider? formatProvider = default)
@@ -58,7 +58,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
         TryGrow(initialSize);
     }
 
-    //  from bool Tryormat, use ThreadStatic ArrayBufferWriter
+    //  from bool TryFormat, use ThreadStatic ArrayBufferWriter
     public Utf8StringWriter(int literalLength, int formattedCount, Span<byte> destination, IFormatProvider? formatProvider = default)
     {
         this.bufferWriter = (TBufferWriter)(object)ArrayBufferWriterPool.GetThreadStaticInstance();
@@ -398,7 +398,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    void TryGrow(int len)
+    public void TryGrow(int len)
     {
         if (destination.Length < len)
         {
