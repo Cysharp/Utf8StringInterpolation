@@ -247,7 +247,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
         AppendFormatted(value.Value, alignment, format);
     }
 
-    public void AppendFormatted<T>(T value, int alignment = 0, string? format = null)
+    void AppendFormattedCore<T>(T value, int alignment = 0, string? format = null)
     {
         // no alignment or add right whitespace
         if (alignment <= 0)

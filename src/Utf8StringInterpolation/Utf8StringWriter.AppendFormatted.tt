@@ -29,7 +29,7 @@ namespace Utf8StringInterpolation;
 public ref partial struct Utf8StringWriter<TBufferWriter>
 {
 <# foreach(var x in generateTypes) { #>
-<#= (x.type is not "bool" and not "char") ? "#if !NET8_0_OR_GREATER" : "# if true" #>
+<#= (x.type is not "bool" and not "char") ? "#if !NET8_0_OR_GREATER" : "#if true" #>
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(<#= x.type #>? value, int alignment = 0, string? format = null)
@@ -117,4 +117,29 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 #endif
 
 <# } #>
+
+    // `if typeof(T) == typeof()` will eliminate in JIT.
+    public void AppendFormatted<T>(T value, int alignment = 0, string? format = null)
+    {
+        if (typeof(T) == typeof(bool))
+        {
+            AppendFormatted(Unsafe.As<T, bool>(ref value), alignment, format);
+        }
+        else if (typeof(T) == typeof(char))
+        {
+            AppendFormatted(Unsafe.As<T, char>(ref value), alignment, format);
+        }
+#if !NET8_0_OR_GREATER
+<# foreach(var x in generateTypes.Where(x => x.type is not "bool" and not "char")) { #>
+        else if (typeof(T) == typeof(<#= x.type #>))
+		{
+            AppendFormatted(Unsafe.As<T, <#= x.type #>>(ref value), alignment, format);
+		}
+<# } #>
+#endif
+        else
+        {
+            AppendFormattedCore<T>(value, alignment, format);
+        }
+    }
 }

@@ -6,7 +6,7 @@ namespace Utf8StringInterpolation;
 
 public ref partial struct Utf8StringWriter<TBufferWriter>
 {
-# if true
+#if true
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(bool? value, int alignment = 0, string? format = null)
@@ -1398,7 +1398,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     }
 #endif
 
-# if true
+#if true
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(char? value, int alignment = 0, string? format = null)
@@ -1485,4 +1485,83 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     }
 #endif
 
+
+    // `if typeof(T) == typeof()` will eliminate in JIT.
+    public void AppendFormatted<T>(T value, int alignment = 0, string? format = null)
+    {
+        if (typeof(T) == typeof(bool))
+        {
+            AppendFormatted(Unsafe.As<T, bool>(ref value), alignment, format);
+        }
+        else if (typeof(T) == typeof(char))
+        {
+            AppendFormatted(Unsafe.As<T, char>(ref value), alignment, format);
+        }
+#if !NET8_0_OR_GREATER
+        else if (typeof(T) == typeof(byte))
+		{
+            AppendFormatted(Unsafe.As<T, byte>(ref value), alignment, format);
+		}
+        else if (typeof(T) == typeof(Decimal))
+		{
+            AppendFormatted(Unsafe.As<T, Decimal>(ref value), alignment, format);
+		}
+        else if (typeof(T) == typeof(Double))
+		{
+            AppendFormatted(Unsafe.As<T, Double>(ref value), alignment, format);
+		}
+        else if (typeof(T) == typeof(Guid))
+		{
+            AppendFormatted(Unsafe.As<T, Guid>(ref value), alignment, format);
+		}
+        else if (typeof(T) == typeof(Int16))
+		{
+            AppendFormatted(Unsafe.As<T, Int16>(ref value), alignment, format);
+		}
+        else if (typeof(T) == typeof(Int32))
+		{
+            AppendFormatted(Unsafe.As<T, Int32>(ref value), alignment, format);
+		}
+        else if (typeof(T) == typeof(Int64))
+		{
+            AppendFormatted(Unsafe.As<T, Int64>(ref value), alignment, format);
+		}
+        else if (typeof(T) == typeof(SByte))
+		{
+            AppendFormatted(Unsafe.As<T, SByte>(ref value), alignment, format);
+		}
+        else if (typeof(T) == typeof(Single))
+		{
+            AppendFormatted(Unsafe.As<T, Single>(ref value), alignment, format);
+		}
+        else if (typeof(T) == typeof(UInt16))
+		{
+            AppendFormatted(Unsafe.As<T, UInt16>(ref value), alignment, format);
+		}
+        else if (typeof(T) == typeof(UInt32))
+		{
+            AppendFormatted(Unsafe.As<T, UInt32>(ref value), alignment, format);
+		}
+        else if (typeof(T) == typeof(UInt64))
+		{
+            AppendFormatted(Unsafe.As<T, UInt64>(ref value), alignment, format);
+		}
+        else if (typeof(T) == typeof(DateTime))
+		{
+            AppendFormatted(Unsafe.As<T, DateTime>(ref value), alignment, format);
+		}
+        else if (typeof(T) == typeof(DateTimeOffset))
+		{
+            AppendFormatted(Unsafe.As<T, DateTimeOffset>(ref value), alignment, format);
+		}
+        else if (typeof(T) == typeof(TimeSpan))
+		{
+            AppendFormatted(Unsafe.As<T, TimeSpan>(ref value), alignment, format);
+		}
+#endif
+        else
+        {
+            AppendFormattedCore<T>(value, alignment, format);
+        }
+    }
 }
