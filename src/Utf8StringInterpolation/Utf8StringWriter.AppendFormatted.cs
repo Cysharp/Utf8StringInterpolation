@@ -7,7 +7,6 @@ namespace Utf8StringInterpolation;
 public ref partial struct Utf8StringWriter<TBufferWriter>
 {
 #if true
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(bool? value, int alignment = 0, string? format = null)
     {
@@ -27,7 +26,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     {
         if (alignment == 0)
         {
-            var bytesWritten = 0;
+            int bytesWritten;
             while (!Utf8Formatter.TryFormat(value, destination, out bytesWritten, StandardFormat.Parse(format)))
             {
                 GrowCore(0);
@@ -94,7 +93,6 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 #endif
 
 #if !NET8_0_OR_GREATER
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(byte? value, int alignment = 0, string? format = null)
     {
@@ -114,7 +112,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     {
         if (alignment == 0)
         {
-            var bytesWritten = 0;
+            int bytesWritten;
             while (!Utf8Formatter.TryFormat(value, destination, out bytesWritten, StandardFormat.Parse(format)))
             {
                 GrowCore(0);
@@ -181,7 +179,6 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 #endif
 
 #if !NET8_0_OR_GREATER
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(Decimal? value, int alignment = 0, string? format = null)
     {
@@ -201,7 +198,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     {
         if (alignment == 0)
         {
-            var bytesWritten = 0;
+            int bytesWritten;
             while (!Utf8Formatter.TryFormat(value, destination, out bytesWritten, StandardFormat.Parse(format)))
             {
                 GrowCore(0);
@@ -268,7 +265,6 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 #endif
 
 #if !NET8_0_OR_GREATER
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(Double? value, int alignment = 0, string? format = null)
     {
@@ -288,7 +284,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     {
         if (alignment == 0)
         {
-            var bytesWritten = 0;
+            int bytesWritten;
             while (!Utf8Formatter.TryFormat(value, destination, out bytesWritten, StandardFormat.Parse(format)))
             {
                 GrowCore(0);
@@ -355,7 +351,6 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 #endif
 
 #if !NET8_0_OR_GREATER
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(Guid? value, int alignment = 0, string? format = null)
     {
@@ -375,7 +370,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     {
         if (alignment == 0)
         {
-            var bytesWritten = 0;
+            int bytesWritten;
             while (!Utf8Formatter.TryFormat(value, destination, out bytesWritten, StandardFormat.Parse(format)))
             {
                 GrowCore(0);
@@ -442,7 +437,6 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 #endif
 
 #if !NET8_0_OR_GREATER
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(Int16? value, int alignment = 0, string? format = null)
     {
@@ -462,7 +456,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     {
         if (alignment == 0)
         {
-            var bytesWritten = 0;
+            int bytesWritten;
             while (!Utf8Formatter.TryFormat(value, destination, out bytesWritten, StandardFormat.Parse(format)))
             {
                 GrowCore(0);
@@ -529,7 +523,6 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 #endif
 
 #if !NET8_0_OR_GREATER
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(Int32? value, int alignment = 0, string? format = null)
     {
@@ -549,7 +542,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     {
         if (alignment == 0)
         {
-            var bytesWritten = 0;
+            int bytesWritten;
             while (!Utf8Formatter.TryFormat(value, destination, out bytesWritten, StandardFormat.Parse(format)))
             {
                 GrowCore(0);
@@ -616,7 +609,6 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 #endif
 
 #if !NET8_0_OR_GREATER
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(Int64? value, int alignment = 0, string? format = null)
     {
@@ -636,7 +628,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     {
         if (alignment == 0)
         {
-            var bytesWritten = 0;
+            int bytesWritten;
             while (!Utf8Formatter.TryFormat(value, destination, out bytesWritten, StandardFormat.Parse(format)))
             {
                 GrowCore(0);
@@ -703,7 +695,6 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 #endif
 
 #if !NET8_0_OR_GREATER
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(SByte? value, int alignment = 0, string? format = null)
     {
@@ -723,7 +714,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     {
         if (alignment == 0)
         {
-            var bytesWritten = 0;
+            int bytesWritten;
             while (!Utf8Formatter.TryFormat(value, destination, out bytesWritten, StandardFormat.Parse(format)))
             {
                 GrowCore(0);
@@ -790,7 +781,6 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 #endif
 
 #if !NET8_0_OR_GREATER
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(Single? value, int alignment = 0, string? format = null)
     {
@@ -810,7 +800,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     {
         if (alignment == 0)
         {
-            var bytesWritten = 0;
+            int bytesWritten;
             while (!Utf8Formatter.TryFormat(value, destination, out bytesWritten, StandardFormat.Parse(format)))
             {
                 GrowCore(0);
@@ -877,7 +867,6 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 #endif
 
 #if !NET8_0_OR_GREATER
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(UInt16? value, int alignment = 0, string? format = null)
     {
@@ -897,7 +886,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     {
         if (alignment == 0)
         {
-            var bytesWritten = 0;
+            int bytesWritten;
             while (!Utf8Formatter.TryFormat(value, destination, out bytesWritten, StandardFormat.Parse(format)))
             {
                 GrowCore(0);
@@ -964,7 +953,6 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 #endif
 
 #if !NET8_0_OR_GREATER
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(UInt32? value, int alignment = 0, string? format = null)
     {
@@ -984,7 +972,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     {
         if (alignment == 0)
         {
-            var bytesWritten = 0;
+            int bytesWritten;
             while (!Utf8Formatter.TryFormat(value, destination, out bytesWritten, StandardFormat.Parse(format)))
             {
                 GrowCore(0);
@@ -1051,7 +1039,6 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 #endif
 
 #if !NET8_0_OR_GREATER
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(UInt64? value, int alignment = 0, string? format = null)
     {
@@ -1071,7 +1058,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     {
         if (alignment == 0)
         {
-            var bytesWritten = 0;
+            int bytesWritten;
             while (!Utf8Formatter.TryFormat(value, destination, out bytesWritten, StandardFormat.Parse(format)))
             {
                 GrowCore(0);
@@ -1138,7 +1125,6 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 #endif
 
 #if !NET8_0_OR_GREATER
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(DateTime? value, int alignment = 0, string? format = null)
     {
@@ -1158,7 +1144,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     {
         if (alignment == 0)
         {
-            var bytesWritten = 0;
+            int bytesWritten;
             while (!value.TryFormat(destination, out bytesWritten, format, formatProvider))
             {
                 GrowCore(0);
@@ -1225,7 +1211,6 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 #endif
 
 #if !NET8_0_OR_GREATER
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(DateTimeOffset? value, int alignment = 0, string? format = null)
     {
@@ -1245,7 +1230,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     {
         if (alignment == 0)
         {
-            var bytesWritten = 0;
+            int bytesWritten;
             while (!value.TryFormat(destination, out bytesWritten, format, formatProvider))
             {
                 GrowCore(0);
@@ -1312,7 +1297,6 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 #endif
 
 #if !NET8_0_OR_GREATER
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(TimeSpan? value, int alignment = 0, string? format = null)
     {
@@ -1332,7 +1316,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     {
         if (alignment == 0)
         {
-            var bytesWritten = 0;
+            int bytesWritten;
             while (!value.TryFormat(destination, out bytesWritten, format, formatProvider))
             {
                 GrowCore(0);
@@ -1399,7 +1383,6 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 #endif
 
 #if true
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(char? value, int alignment = 0, string? format = null)
     {
@@ -1419,7 +1402,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     {
         if (alignment == 0)
         {
-            var bytesWritten = 0;
+            int bytesWritten;
             while (!value.TryFormat(destination, out bytesWritten, format, formatProvider))
             {
                 GrowCore(0);
@@ -1485,6 +1468,417 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     }
 #endif
 
+
+#if NET8_0_OR_GREATER
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void AppendFormatted(byte? value, int alignment = 0, string? format = null)
+    {
+        if (value == null) 
+        {
+            if (alignment != 0)
+            {
+                AppendFormatted("", alignment); // write only alignment
+            }
+            return;
+        }
+        AppendFormatted(value.Value, alignment, format);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void AppendFormatted(byte value, int alignment = 0, string? format = null)
+    {
+        if (alignment == 0 && format == null)
+        {
+            int bytesWritten;
+            while (!Utf8Formatter.TryFormat(value, destination, out bytesWritten, default))
+            {
+                GrowCore(0);
+            }
+            destination = destination.Slice(bytesWritten);
+            currentWritten += bytesWritten;
+            return;
+        }
+        else
+        {
+            AppendFormattedCore(value, alignment, format);
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void AppendFormatted(Decimal? value, int alignment = 0, string? format = null)
+    {
+        if (value == null) 
+        {
+            if (alignment != 0)
+            {
+                AppendFormatted("", alignment); // write only alignment
+            }
+            return;
+        }
+        AppendFormatted(value.Value, alignment, format);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void AppendFormatted(Decimal value, int alignment = 0, string? format = null)
+    {
+        if (alignment == 0 && format == null)
+        {
+            int bytesWritten;
+            while (!Utf8Formatter.TryFormat(value, destination, out bytesWritten, default))
+            {
+                GrowCore(0);
+            }
+            destination = destination.Slice(bytesWritten);
+            currentWritten += bytesWritten;
+            return;
+        }
+        else
+        {
+            AppendFormattedCore(value, alignment, format);
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void AppendFormatted(Double? value, int alignment = 0, string? format = null)
+    {
+        if (value == null) 
+        {
+            if (alignment != 0)
+            {
+                AppendFormatted("", alignment); // write only alignment
+            }
+            return;
+        }
+        AppendFormatted(value.Value, alignment, format);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void AppendFormatted(Double value, int alignment = 0, string? format = null)
+    {
+        if (alignment == 0 && format == null)
+        {
+            int bytesWritten;
+            while (!Utf8Formatter.TryFormat(value, destination, out bytesWritten, default))
+            {
+                GrowCore(0);
+            }
+            destination = destination.Slice(bytesWritten);
+            currentWritten += bytesWritten;
+            return;
+        }
+        else
+        {
+            AppendFormattedCore(value, alignment, format);
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void AppendFormatted(Guid? value, int alignment = 0, string? format = null)
+    {
+        if (value == null) 
+        {
+            if (alignment != 0)
+            {
+                AppendFormatted("", alignment); // write only alignment
+            }
+            return;
+        }
+        AppendFormatted(value.Value, alignment, format);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void AppendFormatted(Guid value, int alignment = 0, string? format = null)
+    {
+        if (alignment == 0 && format == null)
+        {
+            int bytesWritten;
+            while (!Utf8Formatter.TryFormat(value, destination, out bytesWritten, default))
+            {
+                GrowCore(0);
+            }
+            destination = destination.Slice(bytesWritten);
+            currentWritten += bytesWritten;
+            return;
+        }
+        else
+        {
+            AppendFormattedCore(value, alignment, format);
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void AppendFormatted(Int16? value, int alignment = 0, string? format = null)
+    {
+        if (value == null) 
+        {
+            if (alignment != 0)
+            {
+                AppendFormatted("", alignment); // write only alignment
+            }
+            return;
+        }
+        AppendFormatted(value.Value, alignment, format);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void AppendFormatted(Int16 value, int alignment = 0, string? format = null)
+    {
+        if (alignment == 0 && format == null)
+        {
+            int bytesWritten;
+            while (!Utf8Formatter.TryFormat(value, destination, out bytesWritten, default))
+            {
+                GrowCore(0);
+            }
+            destination = destination.Slice(bytesWritten);
+            currentWritten += bytesWritten;
+            return;
+        }
+        else
+        {
+            AppendFormattedCore(value, alignment, format);
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void AppendFormatted(Int32? value, int alignment = 0, string? format = null)
+    {
+        if (value == null) 
+        {
+            if (alignment != 0)
+            {
+                AppendFormatted("", alignment); // write only alignment
+            }
+            return;
+        }
+        AppendFormatted(value.Value, alignment, format);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void AppendFormatted(Int32 value, int alignment = 0, string? format = null)
+    {
+        if (alignment == 0 && format == null)
+        {
+            int bytesWritten;
+            while (!Utf8Formatter.TryFormat(value, destination, out bytesWritten, default))
+            {
+                GrowCore(0);
+            }
+            destination = destination.Slice(bytesWritten);
+            currentWritten += bytesWritten;
+            return;
+        }
+        else
+        {
+            AppendFormattedCore(value, alignment, format);
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void AppendFormatted(Int64? value, int alignment = 0, string? format = null)
+    {
+        if (value == null) 
+        {
+            if (alignment != 0)
+            {
+                AppendFormatted("", alignment); // write only alignment
+            }
+            return;
+        }
+        AppendFormatted(value.Value, alignment, format);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void AppendFormatted(Int64 value, int alignment = 0, string? format = null)
+    {
+        if (alignment == 0 && format == null)
+        {
+            int bytesWritten;
+            while (!Utf8Formatter.TryFormat(value, destination, out bytesWritten, default))
+            {
+                GrowCore(0);
+            }
+            destination = destination.Slice(bytesWritten);
+            currentWritten += bytesWritten;
+            return;
+        }
+        else
+        {
+            AppendFormattedCore(value, alignment, format);
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void AppendFormatted(SByte? value, int alignment = 0, string? format = null)
+    {
+        if (value == null) 
+        {
+            if (alignment != 0)
+            {
+                AppendFormatted("", alignment); // write only alignment
+            }
+            return;
+        }
+        AppendFormatted(value.Value, alignment, format);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void AppendFormatted(SByte value, int alignment = 0, string? format = null)
+    {
+        if (alignment == 0 && format == null)
+        {
+            int bytesWritten;
+            while (!Utf8Formatter.TryFormat(value, destination, out bytesWritten, default))
+            {
+                GrowCore(0);
+            }
+            destination = destination.Slice(bytesWritten);
+            currentWritten += bytesWritten;
+            return;
+        }
+        else
+        {
+            AppendFormattedCore(value, alignment, format);
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void AppendFormatted(Single? value, int alignment = 0, string? format = null)
+    {
+        if (value == null) 
+        {
+            if (alignment != 0)
+            {
+                AppendFormatted("", alignment); // write only alignment
+            }
+            return;
+        }
+        AppendFormatted(value.Value, alignment, format);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void AppendFormatted(Single value, int alignment = 0, string? format = null)
+    {
+        if (alignment == 0 && format == null)
+        {
+            int bytesWritten;
+            while (!Utf8Formatter.TryFormat(value, destination, out bytesWritten, default))
+            {
+                GrowCore(0);
+            }
+            destination = destination.Slice(bytesWritten);
+            currentWritten += bytesWritten;
+            return;
+        }
+        else
+        {
+            AppendFormattedCore(value, alignment, format);
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void AppendFormatted(UInt16? value, int alignment = 0, string? format = null)
+    {
+        if (value == null) 
+        {
+            if (alignment != 0)
+            {
+                AppendFormatted("", alignment); // write only alignment
+            }
+            return;
+        }
+        AppendFormatted(value.Value, alignment, format);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void AppendFormatted(UInt16 value, int alignment = 0, string? format = null)
+    {
+        if (alignment == 0 && format == null)
+        {
+            int bytesWritten;
+            while (!Utf8Formatter.TryFormat(value, destination, out bytesWritten, default))
+            {
+                GrowCore(0);
+            }
+            destination = destination.Slice(bytesWritten);
+            currentWritten += bytesWritten;
+            return;
+        }
+        else
+        {
+            AppendFormattedCore(value, alignment, format);
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void AppendFormatted(UInt32? value, int alignment = 0, string? format = null)
+    {
+        if (value == null) 
+        {
+            if (alignment != 0)
+            {
+                AppendFormatted("", alignment); // write only alignment
+            }
+            return;
+        }
+        AppendFormatted(value.Value, alignment, format);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void AppendFormatted(UInt32 value, int alignment = 0, string? format = null)
+    {
+        if (alignment == 0 && format == null)
+        {
+            int bytesWritten;
+            while (!Utf8Formatter.TryFormat(value, destination, out bytesWritten, default))
+            {
+                GrowCore(0);
+            }
+            destination = destination.Slice(bytesWritten);
+            currentWritten += bytesWritten;
+            return;
+        }
+        else
+        {
+            AppendFormattedCore(value, alignment, format);
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void AppendFormatted(UInt64? value, int alignment = 0, string? format = null)
+    {
+        if (value == null) 
+        {
+            if (alignment != 0)
+            {
+                AppendFormatted("", alignment); // write only alignment
+            }
+            return;
+        }
+        AppendFormatted(value.Value, alignment, format);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void AppendFormatted(UInt64 value, int alignment = 0, string? format = null)
+    {
+        if (alignment == 0 && format == null)
+        {
+            int bytesWritten;
+            while (!Utf8Formatter.TryFormat(value, destination, out bytesWritten, default))
+            {
+                GrowCore(0);
+            }
+            destination = destination.Slice(bytesWritten);
+            currentWritten += bytesWritten;
+            return;
+        }
+        else
+        {
+            AppendFormattedCore(value, alignment, format);
+        }
+    }
+
+#endif
 
     // `if typeof(T) == typeof()` will eliminate in JIT.
     public void AppendFormatted<T>(T value, int alignment = 0, string? format = null)
@@ -1557,6 +1951,150 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
         else if (typeof(T) == typeof(TimeSpan))
 		{
             AppendFormatted(Unsafe.As<T, TimeSpan>(ref value), alignment, format);
+		}
+#else
+        else if (typeof(T) == typeof(bool))
+		{
+            if (alignment == 0 && format == null)
+            {
+                AppendFormatted(Unsafe.As<T, bool>(ref value));
+            }
+            else
+            {
+                AppendFormattedCore(value, alignment, format);
+            }
+		}
+        else if (typeof(T) == typeof(byte))
+		{
+            if (alignment == 0 && format == null)
+            {
+                AppendFormatted(Unsafe.As<T, byte>(ref value));
+            }
+            else
+            {
+                AppendFormattedCore(value, alignment, format);
+            }
+		}
+        else if (typeof(T) == typeof(Decimal))
+		{
+            if (alignment == 0 && format == null)
+            {
+                AppendFormatted(Unsafe.As<T, Decimal>(ref value));
+            }
+            else
+            {
+                AppendFormattedCore(value, alignment, format);
+            }
+		}
+        else if (typeof(T) == typeof(Double))
+		{
+            if (alignment == 0 && format == null)
+            {
+                AppendFormatted(Unsafe.As<T, Double>(ref value));
+            }
+            else
+            {
+                AppendFormattedCore(value, alignment, format);
+            }
+		}
+        else if (typeof(T) == typeof(Guid))
+		{
+            if (alignment == 0 && format == null)
+            {
+                AppendFormatted(Unsafe.As<T, Guid>(ref value));
+            }
+            else
+            {
+                AppendFormattedCore(value, alignment, format);
+            }
+		}
+        else if (typeof(T) == typeof(Int16))
+		{
+            if (alignment == 0 && format == null)
+            {
+                AppendFormatted(Unsafe.As<T, Int16>(ref value));
+            }
+            else
+            {
+                AppendFormattedCore(value, alignment, format);
+            }
+		}
+        else if (typeof(T) == typeof(Int32))
+		{
+            if (alignment == 0 && format == null)
+            {
+                AppendFormatted(Unsafe.As<T, Int32>(ref value));
+            }
+            else
+            {
+                AppendFormattedCore(value, alignment, format);
+            }
+		}
+        else if (typeof(T) == typeof(Int64))
+		{
+            if (alignment == 0 && format == null)
+            {
+                AppendFormatted(Unsafe.As<T, Int64>(ref value));
+            }
+            else
+            {
+                AppendFormattedCore(value, alignment, format);
+            }
+		}
+        else if (typeof(T) == typeof(SByte))
+		{
+            if (alignment == 0 && format == null)
+            {
+                AppendFormatted(Unsafe.As<T, SByte>(ref value));
+            }
+            else
+            {
+                AppendFormattedCore(value, alignment, format);
+            }
+		}
+        else if (typeof(T) == typeof(Single))
+		{
+            if (alignment == 0 && format == null)
+            {
+                AppendFormatted(Unsafe.As<T, Single>(ref value));
+            }
+            else
+            {
+                AppendFormattedCore(value, alignment, format);
+            }
+		}
+        else if (typeof(T) == typeof(UInt16))
+		{
+            if (alignment == 0 && format == null)
+            {
+                AppendFormatted(Unsafe.As<T, UInt16>(ref value));
+            }
+            else
+            {
+                AppendFormattedCore(value, alignment, format);
+            }
+		}
+        else if (typeof(T) == typeof(UInt32))
+		{
+            if (alignment == 0 && format == null)
+            {
+                AppendFormatted(Unsafe.As<T, UInt32>(ref value));
+            }
+            else
+            {
+                AppendFormattedCore(value, alignment, format);
+            }
+		}
+        else if (typeof(T) == typeof(UInt64))
+		{
+            if (alignment == 0 && format == null)
+            {
+                AppendFormatted(Unsafe.As<T, UInt64>(ref value));
+            }
+            else
+            {
+                AppendFormattedCore(value, alignment, format);
+            }
 		}
 #endif
         else

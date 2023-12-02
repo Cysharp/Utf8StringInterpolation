@@ -30,7 +30,6 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 {
 <# foreach(var x in generateTypes) { #>
 <#= (x.type is not "bool" and not "char") ? "#if !NET8_0_OR_GREATER" : "#if true" #>
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(<#= x.type #>? value, int alignment = 0, string? format = null)
     {
@@ -50,7 +49,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     {
         if (alignment == 0)
         {
-            var bytesWritten = 0;
+            int bytesWritten;
             while (!<#= x.format1 #>)
             {
                 GrowCore(0);
@@ -118,6 +117,45 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 
 <# } #>
 
+#if NET8_0_OR_GREATER
+<# foreach(var x in utf8FormatterTypes.Where(x => x is not "bool" and not "char")) { #>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void AppendFormatted(<#= x #>? value, int alignment = 0, string? format = null)
+    {
+        if (value == null) 
+        {
+            if (alignment != 0)
+            {
+                AppendFormatted("", alignment); // write only alignment
+            }
+            return;
+        }
+        AppendFormatted(value.Value, alignment, format);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void AppendFormatted(<#= x #> value, int alignment = 0, string? format = null)
+    {
+        if (alignment == 0 && format == null)
+        {
+            int bytesWritten;
+            while (!Utf8Formatter.TryFormat(value, destination, out bytesWritten, default))
+            {
+                GrowCore(0);
+            }
+            destination = destination.Slice(bytesWritten);
+            currentWritten += bytesWritten;
+            return;
+        }
+        else
+        {
+            AppendFormattedCore(value, alignment, format);
+        }
+    }
+
+<# } #>
+#endif
+
     // `if typeof(T) == typeof()` will eliminate in JIT.
     public void AppendFormatted<T>(T value, int alignment = 0, string? format = null)
     {
@@ -134,6 +172,20 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
         else if (typeof(T) == typeof(<#= x.type #>))
 		{
             AppendFormatted(Unsafe.As<T, <#= x.type #>>(ref value), alignment, format);
+		}
+<# } #>
+#else
+<# foreach(var x in utf8FormatterTypes) { #>
+        else if (typeof(T) == typeof(<#= x #>))
+		{
+            if (alignment == 0 && format == null)
+            {
+                AppendFormatted(Unsafe.As<T, <#= x #>>(ref value));
+            }
+            else
+            {
+                AppendFormattedCore(value, alignment, format);
+            }
 		}
 <# } #>
 #endif
