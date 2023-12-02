@@ -5,14 +5,10 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<LangVersion>11</LangVersion>
 		<Nullable>enable</Nullable>
-		
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<NoWarn>$(NoWarn);CS1591;CA2255</NoWarn>
 		<PackageTags>string</PackageTags>
 		<Description>Successor of ZString; UTF8 based zero allocation high-peformance String Interpolation and StringBuilder.</Description>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
-		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 
 	<ItemGroup>
