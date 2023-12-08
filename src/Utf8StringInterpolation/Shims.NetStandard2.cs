@@ -8,7 +8,7 @@ namespace Utf8StringInterpolation
 {
 	internal static partial class Shims
 	{
-		public static string GetString(this Encoding encoding, scoped ReadOnlySpan<byte> bytes)
+		public static string GetString(this Encoding encoding, ReadOnlySpan<byte> bytes)
 		{
 			if (bytes.IsEmpty) return string.Empty;
 
@@ -21,7 +21,7 @@ namespace Utf8StringInterpolation
 			}
 		}
 
-		public static int GetByteCount(this Encoding encoding, scoped ReadOnlySpan<char> chars)
+		public static int GetByteCount(this Encoding encoding, ReadOnlySpan<char> chars)
 		{
 			unsafe
 			{
@@ -32,7 +32,7 @@ namespace Utf8StringInterpolation
 			}
 		}
 
-		public static int GetBytes(this Encoding encoding, scoped ReadOnlySpan<char> chars, scoped Span<byte> bytes)
+		public static int GetBytes(this Encoding encoding, ReadOnlySpan<char> chars, Span<byte> bytes)
 		{
 			unsafe
 			{
@@ -44,7 +44,7 @@ namespace Utf8StringInterpolation
 			}
 		}
 
-		private static bool TryFormat(this DateTime value, scoped Span<char> destination, out int charsWritten, string? format, IFormatProvider? formatProvider)
+		private static bool TryFormat(this DateTime value, Span<char> destination, out int charsWritten, string? format, IFormatProvider? formatProvider)
 		{
 			string s = value.ToString(format, formatProvider);
 			if (s.Length > destination.Length)
@@ -58,7 +58,7 @@ namespace Utf8StringInterpolation
 			return true;
 		}
 
-		private static bool TryFormat(this DateTimeOffset value, scoped Span<char> destination, out int charsWritten, string? format, IFormatProvider? formatProvider)
+		private static bool TryFormat(this DateTimeOffset value, Span<char> destination, out int charsWritten, string? format, IFormatProvider? formatProvider)
 		{
 			string s = value.ToString(format, formatProvider);
 			if (s.Length > destination.Length)
@@ -72,7 +72,7 @@ namespace Utf8StringInterpolation
 			return true;
 		}
 
-		private static bool TryFormat(this TimeSpan value, scoped Span<char> destination, out int charsWritten, string? format, IFormatProvider? formatProvider)
+		private static bool TryFormat(this TimeSpan value, Span<char> destination, out int charsWritten, string? format, IFormatProvider? formatProvider)
 		{
 			string s = value.ToString(format, formatProvider);
 			if (s.Length > destination.Length)

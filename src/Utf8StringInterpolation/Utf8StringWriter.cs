@@ -37,6 +37,12 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     {
         this.bufferWriter = bufferWriter;
         this.formatProvider = formatProvider;
+        
+        destination = default;
+        allocatedDestinationSize = 0;
+        currentWritten = 0;
+        calculateStringJustSize = false;
+        
         TryGrow(DefaultInitialSize);
     }
 
@@ -45,6 +51,12 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     {
         this.bufferWriter = bufferWriter;
         this.formatProvider = formatProvider;
+        
+        destination = default;
+        allocatedDestinationSize = 0;
+        currentWritten = 0;
+        calculateStringJustSize = false;
+
         var initialSize = literalLength + (formattedCount * GuessedLengthPerHole);
         TryGrow(initialSize);
     }
@@ -54,6 +66,12 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     {
         this.bufferWriter = (TBufferWriter)(object)ArrayBufferWriterPool.GetThreadStaticInstance();
         this.formatProvider = formatProvider;
+        
+        destination = default;
+        allocatedDestinationSize = 0;
+        currentWritten = 0;
+        calculateStringJustSize = false;
+
         var initialSize = literalLength + (formattedCount * GuessedLengthPerHole);
         TryGrow(initialSize);
     }
@@ -65,16 +83,23 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
         this.formatProvider = formatProvider;
         this.destination = destination;
         this.allocatedDestinationSize = destination.Length;
+        this.currentWritten = 0;
         this.calculateStringJustSize = true;
         this.bufferWriter.GetSpan(destination.Length); // allocate dummy
     }
 
     // from AppendFormat extension methods.
-    public Utf8StringWriter(int literalLength, int formattedCount, scoped ref Utf8StringWriter<TBufferWriter> parent)
+    public Utf8StringWriter(int literalLength, int formattedCount, ref Utf8StringWriter<TBufferWriter> parent)
     {
         parent.ClearState();
         this.bufferWriter = parent.bufferWriter;
         this.formatProvider = parent.formatProvider;
+        
+        destination = default;
+        allocatedDestinationSize = 0;
+        currentWritten = 0;
+        calculateStringJustSize = false;
+
         var initialSize = literalLength + (formattedCount * GuessedLengthPerHole);
         TryGrow(initialSize);
     }
@@ -102,7 +127,11 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     {
         Span<char> xs = stackalloc char[1];
         xs[0] = c;
-        AppendFormatted(xs);
+        
+        TryGrow(Encoding.UTF8.GetMaxByteCount(1));
+        var bytesWritten = Encoding.UTF8.GetBytes(xs, destination);
+        destination = destination.Slice(bytesWritten);
+        currentWritten += bytesWritten;
     }
 
     public void Append(char c, int repeatCount)
@@ -132,7 +161,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
         }
     }
 
-    public void AppendUtf8(scoped ReadOnlySpan<byte> utf8String)
+    public void AppendUtf8(ReadOnlySpan<byte> utf8String)
     {
         if (utf8String.Length == 0) return;
         TryGrow(utf8String.Length);
@@ -142,17 +171,17 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
         currentWritten += bytesWritten;
     }
 
-    public void AppendFormatted(scoped ReadOnlySpan<byte> utf8String)
+    public void AppendFormatted(ReadOnlySpan<byte> utf8String)
     {
         AppendUtf8(utf8String);
     }
 
-    public void AppendFormatted(scoped ReadOnlySpan<char> s)
+    public void AppendFormatted(ReadOnlySpan<char> s)
     {
         AppendString(s);
     }
 
-    int AppendString(scoped ReadOnlySpan<char> s)
+    int AppendString(ReadOnlySpan<char> s)
     {
         if (s.Length == 0) return 0;
         var max = GetStringByteCount(s);
@@ -380,7 +409,12 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
             }
         }
 
-        AppendUtf8(dest.Slice(0, written));
+        dest = dest.Slice(0, written);
+        TryGrow(written);
+        dest.CopyTo(destination);
+        destination = destination.Slice(written);
+        currentWritten += written;
+
         return written;
     }
 
@@ -425,7 +459,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
         currentWritten = 0;
     }
 
-    int GetStringByteCount(scoped ReadOnlySpan<char> str)
+    int GetStringByteCount(ReadOnlySpan<char> str)
     {
         return calculateStringJustSize ? Encoding.UTF8.GetByteCount(str) : Encoding.UTF8.GetMaxByteCount(str.Length);
     }

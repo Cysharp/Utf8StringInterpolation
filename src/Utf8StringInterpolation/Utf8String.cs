@@ -107,9 +107,10 @@ public static class Utf8String
     {
         using var buffer = CreateWriter(out var builder);
 
-        var separatorSize = Encoding.UTF8.GetByteCount(separator);
-        Span<byte> utf8Separator = stackalloc byte[separatorSize];
-        Encoding.UTF8.GetBytes(separator.AsSpan(), utf8Separator);
+        var separatorBufferSize = Encoding.UTF8.GetMaxByteCount(separator.Length);
+        var separatorBuffer = ArrayPool<byte>.Shared.Rent(separatorBufferSize);
+        var utf8SeparatorLength = Encoding.UTF8.GetBytes(separator.AsSpan(), separatorBuffer);
+        var utf8Separator = separatorBuffer.AsSpan(0, utf8SeparatorLength);
 
         var first = true;
         foreach (var item in values)
@@ -126,6 +127,7 @@ public static class Utf8String
         }
 
         builder.Flush();
+        ArrayPool<byte>.Shared.Return(separatorBuffer);
         return buffer.ToArray();
     }
 
@@ -134,9 +136,10 @@ public static class Utf8String
     {
         using var builder = CreateWriter(bufferWriter); // Dispose calls Flush
 
-        var separatorSize = Encoding.UTF8.GetByteCount(separator);
-        Span<byte> utf8Separator = stackalloc byte[separatorSize];
-        Encoding.UTF8.GetBytes(separator.AsSpan(), utf8Separator);
+        var separatorBufferSize = Encoding.UTF8.GetMaxByteCount(separator.Length);
+        var separatorBuffer = ArrayPool<byte>.Shared.Rent(separatorBufferSize);
+        var utf8SeparatorLength = Encoding.UTF8.GetBytes(separator.AsSpan(), separatorBuffer);
+        var utf8Separator = separatorBuffer.AsSpan(0, utf8SeparatorLength);
 
         var first = true;
         foreach (var item in values)
@@ -151,15 +154,18 @@ public static class Utf8String
             }
             builder.Append(item);
         }
+        
+        ArrayPool<byte>.Shared.Return(separatorBuffer);
     }
 
     public static byte[] Join<T>(string separator, IEnumerable<T> values)
     {
         using var buffer = CreateWriter(out var builder);
 
-        var separatorSize = Encoding.UTF8.GetByteCount(separator);
-        Span<byte> utf8Separator = stackalloc byte[separatorSize];
-        Encoding.UTF8.GetBytes(separator.AsSpan(), utf8Separator);
+        var separatorBufferSize = Encoding.UTF8.GetMaxByteCount(separator.Length);
+        var separatorBuffer = ArrayPool<byte>.Shared.Rent(separatorBufferSize);
+        var utf8SeparatorLength = Encoding.UTF8.GetBytes(separator.AsSpan(), separatorBuffer);
+        var utf8Separator = separatorBuffer.AsSpan(0, utf8SeparatorLength);
 
         var first = true;
         foreach (var item in values)
@@ -174,8 +180,9 @@ public static class Utf8String
             }
             builder.AppendFormatted(item);
         }
-
         builder.Flush();
+        
+        ArrayPool<byte>.Shared.Return(separatorBuffer);
         return buffer.ToArray();
     }
 
@@ -184,9 +191,10 @@ public static class Utf8String
     {
         using var builder = CreateWriter(bufferWriter); // Dispose calls Flush
 
-        var separatorSize = Encoding.UTF8.GetByteCount(separator);
-        Span<byte> utf8Separator = stackalloc byte[separatorSize];
-        Encoding.UTF8.GetBytes(separator.AsSpan(), utf8Separator);
+        var separatorBufferSize = Encoding.UTF8.GetMaxByteCount(separator.Length);
+        var separatorBuffer = ArrayPool<byte>.Shared.Rent(separatorBufferSize);
+        var utf8SeparatorLength = Encoding.UTF8.GetBytes(separator.AsSpan(), separatorBuffer);
+        var utf8Separator = separatorBuffer.AsSpan(0, utf8SeparatorLength); 
 
         var first = true;
         foreach (var item in values)
@@ -201,5 +209,7 @@ public static class Utf8String
             }
             builder.AppendFormatted(item);
         }
+        
+        ArrayPool<byte>.Shared.Return(separatorBuffer);
     }
 }
