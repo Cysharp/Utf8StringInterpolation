@@ -89,8 +89,10 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
         this.bufferWriter.GetSpan(destination.Length); // allocate dummy
     }
 
+#if !UNITY_2022_2_OR_NEWER        
     // from AppendFormat extension methods.
-    public Utf8StringWriter(int literalLength, int formattedCount, ref Utf8StringWriter<TBufferWriter> parent)
+    // This feature required C# 11 or higher, because it needs scoped ref. 
+    public Utf8StringWriter(int literalLength, int formattedCount, scoped ref Utf8StringWriter<TBufferWriter> parent)
     {
         parent.ClearState();
         this.bufferWriter = parent.bufferWriter;
@@ -104,6 +106,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
         var initialSize = literalLength + (formattedCount * GuessedLengthPerHole);
         TryGrow(initialSize);
     }
+#endif            
 
     public void AppendLiteral(string s)
     {
@@ -485,13 +488,15 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     }
 }
 
+// This feature requires C# 11 or newer, because it needs scoped ref.
+#if !UNITY_2022_2_OR_NEWER
 public static class Utf8StringExtensions
 {
     // hack for use nested InterpolatedStringHandler.
 
     public static void AppendFormat<TBufferWriter>(
         this ref Utf8StringWriter<TBufferWriter> parent,
-        [InterpolatedStringHandlerArgument("parent")] ref Utf8StringWriter<TBufferWriter> format)
+        [InterpolatedStringHandlerArgument("parent")] scoped ref Utf8StringWriter<TBufferWriter> format)
         where TBufferWriter : IBufferWriter<byte>
     {
         format.Flush();
@@ -499,10 +504,11 @@ public static class Utf8StringExtensions
 
     public static void AppendLine<TBufferWriter>(
         this ref Utf8StringWriter<TBufferWriter> parent,
-        [InterpolatedStringHandlerArgument("parent")] ref Utf8StringWriter<TBufferWriter> format)
+        [InterpolatedStringHandlerArgument("parent")] scoped ref Utf8StringWriter<TBufferWriter> format)
         where TBufferWriter : IBufferWriter<byte>
     {
         format.Flush();
         parent.AppendLine();
     }
 }
+#endif

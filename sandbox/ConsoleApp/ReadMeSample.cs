@@ -32,7 +32,7 @@ internal class ReadMeSample
         // like StringBuilder
         var writer = Utf8String.CreateWriter(bufferWriter);
         writer.Append("My Name...");
-        // writer.AppendFormat($"is...? {name}");
+        writer.AppendFormat($"is...? {name}");
         writer.AppendLine();
         writer.Flush();
 
@@ -115,7 +115,7 @@ internal class ReadMeSample
 
         // call each append methods.
         writer.Append("foo");
-        // writer.AppendFormat($"bar {Guid.NewGuid()}");
+        writer.AppendFormat($"bar {Guid.NewGuid()}");
 
         // finally call Flush(or Dispose)
         writer.Flush();
@@ -131,7 +131,7 @@ internal class ReadMeSample
 
         // call each append methods.
         writer.Append("foo");
-        // writer.AppendFormat($"bar {Guid.NewGuid()}");
+        writer.AppendFormat($"bar {Guid.NewGuid()}");
 
         // finally call Flush(or Dispose)
         writer.Flush();

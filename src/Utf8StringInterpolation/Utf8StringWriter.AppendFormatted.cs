@@ -72,7 +72,6 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
             buffer.Slice(0, bytesWritten).CopyTo(destination);
             destination = destination.Slice(bytesWritten);
             currentWritten += bytesWritten;
-            return;
         }
         else
         {
