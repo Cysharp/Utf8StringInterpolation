@@ -10,7 +10,7 @@ namespace Utf8StringInterpolation;
 public static class Utf8String
 {
     // Format API
-
+   
     public static byte[] Format(ref Utf8StringWriter<ArrayBufferWriter<byte>> format)
     {
         format.Flush();
