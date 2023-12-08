@@ -18,5 +18,17 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageIcon>Icon.png</PackageIcon>
         <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)opensource.snk</AssemblyOriginatorKeyFile>
+
+        <BaseIntermediateOutputPath>.output\obj\</BaseIntermediateOutputPath>
+        <BaseOutputPath>.output\bin\</BaseOutputPath>
     </PropertyGroup>
+
+    <ItemGroup>
+        <None Remove=".output\**\**.*" />
+        <None Remove="obj\**\*.*;bin\**\*.*" />
+        <Compile Remove=".output\**\**.*" />
+        <Compile Remove="bin\**\*.*;obj\**\*.*" />
+        <EmbeddedResource Remove=".output\**\**.*" />
+        <EmbeddedResource Remove="bin\**\*.*;obj\**\*.*" />
+    </ItemGroup>
 </Project>

@@ -1,5 +1,6 @@
 ﻿#pragma warning disable CA2014 // Do not use stackalloc in loops
 
+using System;
 using System.Buffers;
 using System.Runtime.CompilerServices;
 using System.Text;

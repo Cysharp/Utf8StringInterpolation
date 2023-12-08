@@ -1,90 +1,89 @@
-﻿#if NETSTANDARD2_0
+﻿#if NETSTANDARD2_0 || UNITY_2022_2_OR_NEWER
 
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Utf8StringInterpolation
+namespace Utf8StringInterpolation;
+
+internal static partial class Shims
 {
-	internal static partial class Shims
+	public static string GetString(this Encoding encoding, ReadOnlySpan<byte> bytes)
 	{
-		public static string GetString(this Encoding encoding, ReadOnlySpan<byte> bytes)
-		{
-			if (bytes.IsEmpty) return string.Empty;
+		if (bytes.IsEmpty) return string.Empty;
 
-			unsafe
+		unsafe
+		{
+			fixed (byte* pB = &MemoryMarshal.GetReference(bytes))
 			{
-				fixed (byte* pB = &MemoryMarshal.GetReference(bytes))
-				{
-					return encoding.GetString(pB, bytes.Length);
-				}
+				return encoding.GetString(pB, bytes.Length);
 			}
 		}
+	}
 
-		public static int GetByteCount(this Encoding encoding, ReadOnlySpan<char> chars)
+	public static int GetByteCount(this Encoding encoding, ReadOnlySpan<char> chars)
+	{
+		unsafe
 		{
-			unsafe
+			fixed (char* charsPtr = &MemoryMarshal.GetReference(chars))
 			{
-				fixed (char* charsPtr = &MemoryMarshal.GetReference(chars))
-				{
-					return encoding.GetByteCount(charsPtr, chars.Length);
-				}
+				return encoding.GetByteCount(charsPtr, chars.Length);
 			}
 		}
+	}
 
-		public static int GetBytes(this Encoding encoding, ReadOnlySpan<char> chars, Span<byte> bytes)
+	public static int GetBytes(this Encoding encoding, ReadOnlySpan<char> chars, Span<byte> bytes)
+	{
+		unsafe
 		{
-			unsafe
+			fixed (char* charsPtr = &MemoryMarshal.GetReference(chars))
+			fixed (byte* bytesPtr = &MemoryMarshal.GetReference(bytes))
 			{
-				fixed (char* charsPtr = &MemoryMarshal.GetReference(chars))
-				fixed (byte* bytesPtr = &MemoryMarshal.GetReference(bytes))
-				{
-					return encoding.GetBytes(charsPtr, chars.Length, bytesPtr, bytes.Length);
-				}
+				return encoding.GetBytes(charsPtr, chars.Length, bytesPtr, bytes.Length);
 			}
 		}
+	}
 
-		private static bool TryFormat(this DateTime value, Span<char> destination, out int charsWritten, string? format, IFormatProvider? formatProvider)
+	private static bool TryFormat(this DateTime value, Span<char> destination, out int charsWritten, string? format, IFormatProvider? formatProvider)
+	{
+		string s = value.ToString(format, formatProvider);
+		if (s.Length > destination.Length)
 		{
-			string s = value.ToString(format, formatProvider);
-			if (s.Length > destination.Length)
-			{
-				charsWritten = 0;
-				return false;
-			}
-
-			s.AsSpan().CopyTo(destination);
-			charsWritten = s.Length;
-			return true;
+			charsWritten = 0;
+			return false;
 		}
 
-		private static bool TryFormat(this DateTimeOffset value, Span<char> destination, out int charsWritten, string? format, IFormatProvider? formatProvider)
-		{
-			string s = value.ToString(format, formatProvider);
-			if (s.Length > destination.Length)
-			{
-				charsWritten = 0;
-				return false;
-			}
+		s.AsSpan().CopyTo(destination);
+		charsWritten = s.Length;
+		return true;
+	}
 
-			s.AsSpan().CopyTo(destination);
-			charsWritten = s.Length;
-			return true;
+	private static bool TryFormat(this DateTimeOffset value, Span<char> destination, out int charsWritten, string? format, IFormatProvider? formatProvider)
+	{
+		string s = value.ToString(format, formatProvider);
+		if (s.Length > destination.Length)
+		{
+			charsWritten = 0;
+			return false;
 		}
 
-		private static bool TryFormat(this TimeSpan value, Span<char> destination, out int charsWritten, string? format, IFormatProvider? formatProvider)
-		{
-			string s = value.ToString(format, formatProvider);
-			if (s.Length > destination.Length)
-			{
-				charsWritten = 0;
-				return false;
-			}
+		s.AsSpan().CopyTo(destination);
+		charsWritten = s.Length;
+		return true;
+	}
 
-			s.AsSpan().CopyTo(destination);
-			charsWritten = s.Length;
-			return true;
+	private static bool TryFormat(this TimeSpan value, Span<char> destination, out int charsWritten, string? format, IFormatProvider? formatProvider)
+	{
+		string s = value.ToString(format, formatProvider);
+		if (s.Length > destination.Length)
+		{
+			charsWritten = 0;
+			return false;
 		}
+
+		s.AsSpan().CopyTo(destination);
+		charsWritten = s.Length;
+		return true;
 	}
 }
 

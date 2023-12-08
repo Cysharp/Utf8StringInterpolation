@@ -11,9 +11,9 @@
 		<Description>Successor of ZString; UTF8 based zero allocation high-peformance String Interpolation and StringBuilder.</Description>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="PolySharp" Version="1.7.1" />
-	</ItemGroup>
+	<PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
 		<PackageReference Include="System.Memory" Version="4.5.5" />
@@ -28,6 +28,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Remove="**\*.meta" />
+		<None Remove="Plugins\**\*" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
 		<None Update="Utf8StringWriter.AppendFormatted.tt">
 			<Generator>TextTemplatingFileGenerator</Generator>
@@ -39,5 +44,4 @@
 			<DependentUpon>Utf8StringWriter.AppendFormatted.tt</DependentUpon>
 		</Compile>
 	</ItemGroup>
-
 </Project>
