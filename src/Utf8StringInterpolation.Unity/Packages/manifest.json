@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "com.cysharp.utf8stringinterpolation": "file:../../Utf8StringInterpolation",      
+    "com.cysharp.csprojmodifier": "https://github.com/Cysharp/CsprojModifier.git?path=src/CsprojModifier/Assets/CsprojModifier",
+    "com.cysharp.utf8stringinterpolation": "file:../../Utf8StringInterpolation",
     "com.unity.collab-proxy": "2.2.0",
     "com.unity.feature.development": "1.0.1",
     "com.unity.textmeshpro": "3.0.6",

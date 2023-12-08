@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.cysharp.csprojmodifier": {
+      "version": "https://github.com/Cysharp/CsprojModifier.git?path=src/CsprojModifier/Assets/CsprojModifier",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "baba5e36b5e93cb0a4d08e170e01aa3890d327bf"
+    },
     "com.cysharp.utf8stringinterpolation": {
       "version": "file:../../Utf8StringInterpolation",
       "depth": 0,
