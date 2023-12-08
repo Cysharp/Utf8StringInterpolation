@@ -1,4 +1,4 @@
-﻿#if !NET6_0_OR_GREATER && !NETSTANDARD2_1_OR_GREATER
+﻿#if !NET6_0_OR_GREATER && !NETSTANDARD2_1_OR_GREATER && !NET_STANDARD_2_1
 using System;
 using System.Diagnostics;
 
