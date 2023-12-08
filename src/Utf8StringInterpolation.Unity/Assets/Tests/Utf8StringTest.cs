@@ -9,6 +9,7 @@ namespace Utf8StringInterpolation.Tests;
 
 public class Utf8StringTest
 {
+    
     [Test]
     public void Sample()
     {
