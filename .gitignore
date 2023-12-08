@@ -116,3 +116,4 @@ nuget/*.unitypackage
 .idea/
 
 __packages/
+.DS_Store

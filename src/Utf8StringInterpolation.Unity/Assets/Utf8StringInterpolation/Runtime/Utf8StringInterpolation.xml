@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Utf8StringInterpolation</name>
+    </assembly>
+    <members>
+        <member name="T:System.Runtime.CompilerServices.InterpolatedStringHandlerAttribute">
+            <summary>
+            Indicates the attributed type is to be used as an interpolated string handler.
+            </summary>
+        </member>
+        <member name="T:System.Runtime.CompilerServices.InterpolatedStringHandlerArgumentAttribute">
+            <summary>
+            Indicates which arguments to a method involving an interpolated string handler should be passed to that handler.
+            </summary>
+        </member>
+        <member name="M:System.Runtime.CompilerServices.InterpolatedStringHandlerArgumentAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.Runtime.CompilerServices.InterpolatedStringHandlerArgumentAttribute"/> class.
+            </summary>
+            <param name="argument">The name of the argument that should be passed to the handler.</param>
+            <remarks><see langword="null"/> may be used as the name of the receiver in an instance method.</remarks>
+        </member>
+        <member name="M:System.Runtime.CompilerServices.InterpolatedStringHandlerArgumentAttribute.#ctor(System.String[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.Runtime.CompilerServices.InterpolatedStringHandlerArgumentAttribute"/> class.
+            </summary>
+            <param name="arguments">The names of the arguments that should be passed to the handler.</param>
+            <remarks><see langword="null"/> may be used as the name of the receiver in an instance method.</remarks>
+        </member>
+        <member name="P:System.Runtime.CompilerServices.InterpolatedStringHandlerArgumentAttribute.Arguments">
+            <summary>
+            Gets the names of the arguments that should be passed to the handler.
+            </summary>
+            <remarks><see langword="null"/> may be used as the name of the receiver in an instance method.</remarks>
+        </member>
+    </members>
+</doc>

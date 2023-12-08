@@ -1,0 +1,9 @@
+{
+  "name": "com.cysharp.utf8stringinterpolation",
+  "version": "1.3.0",
+  "author": { "name": "Cysharp, Inc.", "url": "https://cysharp.co.jp/en/" },
+  "displayName": "Utf8StringInterpolation",
+  "description": "UTF8 based zero allocation high-peformance String Interpolation and StringBuilder.",
+  "unity": "2022.2",
+  "license": "MIT"
+}
