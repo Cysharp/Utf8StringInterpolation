@@ -11,10 +11,6 @@
 		<Description>Successor of ZString; UTF8 based zero allocation high-peformance String Interpolation and StringBuilder.</Description>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="PolySharp" Version="1.7.1" />
-	</ItemGroup>
-
 	<ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
 		<PackageReference Include="System.Memory" Version="4.5.5" />
 	</ItemGroup>
@@ -40,4 +36,10 @@
 		</Compile>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <PackageReference Include="PolySharp" Version="1.14.0">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
+	</ItemGroup>
 </Project>
