@@ -36,4 +36,10 @@
 		</Compile>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <PackageReference Include="PolySharp" Version="1.14.0">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
+	</ItemGroup>
 </Project>
