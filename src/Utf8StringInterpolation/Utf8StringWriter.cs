@@ -286,9 +286,9 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 
             // String fallbacks
             string? s;
-            if (value is IFormattable)
+            if (value is IFormattable formattable)
             {
-                s = ((IFormattable)value).ToString(format, formatProvider);
+                s = formattable.ToString(format, formatProvider);
             }
             else
             {
