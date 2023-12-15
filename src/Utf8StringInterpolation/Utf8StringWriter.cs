@@ -262,10 +262,10 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
             }
 
             // .NET 8
-            if (value is IUtf8SpanFormattable)
+            if (value is IUtf8SpanFormattable spanFormattable)
             {
                 // constrained call avoiding boxing for value types
-                while (!((IUtf8SpanFormattable)value).TryFormat(destination, out bytesWritten, format, formatProvider))
+                while (!spanFormattable.TryFormat(destination, out bytesWritten, format, formatProvider))
                 {
                     GrowCore(0);
                 }
