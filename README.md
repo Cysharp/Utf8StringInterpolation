@@ -226,7 +226,7 @@ Utf8String.Format($"Today is {DateTime.Now:yyyy-MM-dd}");
 
 Unity
 ---
-This library requires C# 10.0, however currently Unity C# version is 9.0. Therefore, it is not supported at this time and will be considered when the version of Unity's C# is updated.
+[Cysharp/ZLogger](https://github.com/Cysharp/ZLogger) is using Utf8StringInterpolation and supports Unity. See instruction for details.
 
 License
 ---
