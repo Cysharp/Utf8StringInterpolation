@@ -28,7 +28,7 @@ namespace Utf8StringInterpolation
             }
 #endif
         }
-                
+
 #if !NET8_0_OR_GREATER
         public static bool TryFormat(this DateTime value, Span<byte> utf8Destination, out int bytesWritten, string? format, IFormatProvider? formatProvider)
         {
@@ -46,14 +46,15 @@ namespace Utf8StringInterpolation
                 }
             }
 
-            var count = Encoding.UTF8.GetByteCount(charDest.Slice(0, charWritten));
+            var slice = charDest.Slice(0, charWritten);
+            var count = Encoding.UTF8.GetByteCount(slice);
             if (utf8Destination.Length < count)
             {
                 bytesWritten = 0;
                 return false;
             }
 
-            bytesWritten = Encoding.UTF8.GetBytes(charDest.Slice(0, charWritten), utf8Destination);
+            bytesWritten = Encoding.UTF8.GetBytes(slice, utf8Destination);
             return true;
         }
 
@@ -73,14 +74,15 @@ namespace Utf8StringInterpolation
                 }
             }
 
-            var count = Encoding.UTF8.GetByteCount(charDest.Slice(0, charWritten));
+            var slice = charDest.Slice(0, charWritten);
+            var count = Encoding.UTF8.GetByteCount(slice);
             if (utf8Destination.Length < count)
             {
                 bytesWritten = 0;
                 return false;
             }
 
-            bytesWritten = Encoding.UTF8.GetBytes(charDest.Slice(0, charWritten), utf8Destination);
+            bytesWritten = Encoding.UTF8.GetBytes(slice, utf8Destination);
             return true;
         }
 
@@ -100,14 +102,15 @@ namespace Utf8StringInterpolation
                 }
             }
 
-            var count = Encoding.UTF8.GetByteCount(charDest.Slice(0, charWritten));
+            var slice = charDest.Slice(0, charWritten);
+            var count = Encoding.UTF8.GetByteCount(slice);
             if (utf8Destination.Length < count)
             {
                 bytesWritten = 0;
                 return false;
             }
 
-            bytesWritten = Encoding.UTF8.GetBytes(charDest.Slice(0, charWritten), utf8Destination);
+            bytesWritten = Encoding.UTF8.GetBytes(slice, utf8Destination);
             return true;
         }
 #endif
