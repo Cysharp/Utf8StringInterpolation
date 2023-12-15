@@ -252,7 +252,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
         // no alignment or add right whitespace
         if (alignment <= 0)
         {
-            var bytesWritten = 0;
+            int bytesWritten;
 
 #if NET8_0_OR_GREATER
             if (typeof(T).IsEnum)
@@ -338,7 +338,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
         Debug.Assert(value is ISpanFormattable);
 
         Span<char> charDest = stackalloc char[256];
-        var charWritten = 0;
+        int charWritten;
         while (!((ISpanFormattable)value).TryFormat(charDest, out charWritten, format, formatProvider))
         {
             if (charDest.Length < 512)

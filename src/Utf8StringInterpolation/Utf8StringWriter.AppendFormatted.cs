@@ -1417,7 +1417,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 
     void AppendFormattedAlignment(char value, int alignment, string? format)
     {
-        var bytesWritten = 0;
+        int bytesWritten;
 
         // add left whitespace
         if (alignment > 0)
