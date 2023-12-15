@@ -351,9 +351,10 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
             }
         }
 
-        var count = Encoding.UTF8.GetByteCount(charDest.Slice(0, charWritten));
+        var slice = charDest.Slice(0, charWritten);
+        var count = Encoding.UTF8.GetByteCount(slice);
         TryGrow(count);
-        var bytesWritten = Encoding.UTF8.GetBytes(charDest.Slice(0, charWritten), destination);
+        var bytesWritten = Encoding.UTF8.GetBytes(slice, destination);
         destination = destination.Slice(bytesWritten);
         currentWritten += bytesWritten;
         return bytesWritten;
