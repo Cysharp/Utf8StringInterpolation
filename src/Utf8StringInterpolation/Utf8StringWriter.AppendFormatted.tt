@@ -170,14 +170,14 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 #if !NET8_0_OR_GREATER
 <# foreach(var x in generateTypes.Where(x => x.type is not "bool" and not "char")) { #>
         else if (typeof(T) == typeof(<#= x.type #>))
-		{
+        {
             AppendFormatted(Unsafe.As<T, <#= x.type #>>(ref value), alignment, format);
-		}
+        }
 <# } #>
 #else
 <# foreach(var x in utf8FormatterTypes) { #>
         else if (typeof(T) == typeof(<#= x #>))
-		{
+        {
             if (alignment == 0 && format == null)
             {
                 AppendFormatted(Unsafe.As<T, <#= x #>>(ref value));
@@ -186,7 +186,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
             {
                 AppendFormattedCore(value, alignment, format);
             }
-		}
+        }
 <# } #>
 #endif
         else
