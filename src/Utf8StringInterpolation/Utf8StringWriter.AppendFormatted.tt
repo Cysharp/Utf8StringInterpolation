@@ -33,15 +33,15 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(<#= x.type #>? value, int alignment = 0, string? format = null)
     {
-        if (value == null) 
+        if (!value.HasValue)
         {
             if (alignment != 0)
             {
-                AppendFormatted("", alignment); // write only alignment
+                AppendWhitespace(alignment < 0 ? -alignment : alignment);
             }
             return;
         }
-        AppendFormatted(value.Value, alignment, format);
+        AppendFormatted(value.GetValueOrDefault(), alignment, format);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -122,15 +122,15 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(<#= x #>? value, int alignment = 0, string? format = null)
     {
-        if (value == null) 
+        if (!value.HasValue)
         {
             if (alignment != 0)
             {
-                AppendFormatted("", alignment); // write only alignment
+                AppendWhitespace(alignment < 0 ? -alignment : alignment);
             }
             return;
         }
-        AppendFormatted(value.Value, alignment, format);
+        AppendFormatted(value.GetValueOrDefault(), alignment, format);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

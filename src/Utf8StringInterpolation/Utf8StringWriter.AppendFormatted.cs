@@ -10,15 +10,15 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(bool? value, int alignment = 0, string? format = null)
     {
-        if (value == null) 
+        if (!value.HasValue)
         {
             if (alignment != 0)
             {
-                AppendFormatted("", alignment); // write only alignment
+                AppendWhitespace(alignment < 0 ? -alignment : alignment);
             }
             return;
         }
-        AppendFormatted(value.Value, alignment, format);
+        AppendFormatted(value.GetValueOrDefault(), alignment, format);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -96,15 +96,15 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(byte? value, int alignment = 0, string? format = null)
     {
-        if (value == null) 
+        if (!value.HasValue)
         {
             if (alignment != 0)
             {
-                AppendFormatted("", alignment); // write only alignment
+                AppendWhitespace(alignment < 0 ? -alignment : alignment);
             }
             return;
         }
-        AppendFormatted(value.Value, alignment, format);
+        AppendFormatted(value.GetValueOrDefault(), alignment, format);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -182,15 +182,15 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(Decimal? value, int alignment = 0, string? format = null)
     {
-        if (value == null) 
+        if (!value.HasValue)
         {
             if (alignment != 0)
             {
-                AppendFormatted("", alignment); // write only alignment
+                AppendWhitespace(alignment < 0 ? -alignment : alignment);
             }
             return;
         }
-        AppendFormatted(value.Value, alignment, format);
+        AppendFormatted(value.GetValueOrDefault(), alignment, format);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -268,15 +268,15 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(Double? value, int alignment = 0, string? format = null)
     {
-        if (value == null) 
+        if (!value.HasValue)
         {
             if (alignment != 0)
             {
-                AppendFormatted("", alignment); // write only alignment
+                AppendWhitespace(alignment < 0 ? -alignment : alignment);
             }
             return;
         }
-        AppendFormatted(value.Value, alignment, format);
+        AppendFormatted(value.GetValueOrDefault(), alignment, format);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -354,15 +354,15 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(Guid? value, int alignment = 0, string? format = null)
     {
-        if (value == null) 
+        if (!value.HasValue)
         {
             if (alignment != 0)
             {
-                AppendFormatted("", alignment); // write only alignment
+                AppendWhitespace(alignment < 0 ? -alignment : alignment);
             }
             return;
         }
-        AppendFormatted(value.Value, alignment, format);
+        AppendFormatted(value.GetValueOrDefault(), alignment, format);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -440,15 +440,15 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(Int16? value, int alignment = 0, string? format = null)
     {
-        if (value == null) 
+        if (!value.HasValue)
         {
             if (alignment != 0)
             {
-                AppendFormatted("", alignment); // write only alignment
+                AppendWhitespace(alignment < 0 ? -alignment : alignment);
             }
             return;
         }
-        AppendFormatted(value.Value, alignment, format);
+        AppendFormatted(value.GetValueOrDefault(), alignment, format);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -526,15 +526,15 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(Int32? value, int alignment = 0, string? format = null)
     {
-        if (value == null) 
+        if (!value.HasValue)
         {
             if (alignment != 0)
             {
-                AppendFormatted("", alignment); // write only alignment
+                AppendWhitespace(alignment < 0 ? -alignment : alignment);
             }
             return;
         }
-        AppendFormatted(value.Value, alignment, format);
+        AppendFormatted(value.GetValueOrDefault(), alignment, format);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -612,15 +612,15 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(Int64? value, int alignment = 0, string? format = null)
     {
-        if (value == null) 
+        if (!value.HasValue)
         {
             if (alignment != 0)
             {
-                AppendFormatted("", alignment); // write only alignment
+                AppendWhitespace(alignment < 0 ? -alignment : alignment);
             }
             return;
         }
-        AppendFormatted(value.Value, alignment, format);
+        AppendFormatted(value.GetValueOrDefault(), alignment, format);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -698,15 +698,15 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(SByte? value, int alignment = 0, string? format = null)
     {
-        if (value == null) 
+        if (!value.HasValue)
         {
             if (alignment != 0)
             {
-                AppendFormatted("", alignment); // write only alignment
+                AppendWhitespace(alignment < 0 ? -alignment : alignment);
             }
             return;
         }
-        AppendFormatted(value.Value, alignment, format);
+        AppendFormatted(value.GetValueOrDefault(), alignment, format);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -784,15 +784,15 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(Single? value, int alignment = 0, string? format = null)
     {
-        if (value == null) 
+        if (!value.HasValue)
         {
             if (alignment != 0)
             {
-                AppendFormatted("", alignment); // write only alignment
+                AppendWhitespace(alignment < 0 ? -alignment : alignment);
             }
             return;
         }
-        AppendFormatted(value.Value, alignment, format);
+        AppendFormatted(value.GetValueOrDefault(), alignment, format);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -870,15 +870,15 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(UInt16? value, int alignment = 0, string? format = null)
     {
-        if (value == null) 
+        if (!value.HasValue)
         {
             if (alignment != 0)
             {
-                AppendFormatted("", alignment); // write only alignment
+                AppendWhitespace(alignment < 0 ? -alignment : alignment);
             }
             return;
         }
-        AppendFormatted(value.Value, alignment, format);
+        AppendFormatted(value.GetValueOrDefault(), alignment, format);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -956,15 +956,15 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(UInt32? value, int alignment = 0, string? format = null)
     {
-        if (value == null) 
+        if (!value.HasValue)
         {
             if (alignment != 0)
             {
-                AppendFormatted("", alignment); // write only alignment
+                AppendWhitespace(alignment < 0 ? -alignment : alignment);
             }
             return;
         }
-        AppendFormatted(value.Value, alignment, format);
+        AppendFormatted(value.GetValueOrDefault(), alignment, format);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1042,15 +1042,15 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(UInt64? value, int alignment = 0, string? format = null)
     {
-        if (value == null) 
+        if (!value.HasValue)
         {
             if (alignment != 0)
             {
-                AppendFormatted("", alignment); // write only alignment
+                AppendWhitespace(alignment < 0 ? -alignment : alignment);
             }
             return;
         }
-        AppendFormatted(value.Value, alignment, format);
+        AppendFormatted(value.GetValueOrDefault(), alignment, format);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1128,15 +1128,15 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(DateTime? value, int alignment = 0, string? format = null)
     {
-        if (value == null) 
+        if (!value.HasValue)
         {
             if (alignment != 0)
             {
-                AppendFormatted("", alignment); // write only alignment
+                AppendWhitespace(alignment < 0 ? -alignment : alignment);
             }
             return;
         }
-        AppendFormatted(value.Value, alignment, format);
+        AppendFormatted(value.GetValueOrDefault(), alignment, format);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1214,15 +1214,15 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(DateTimeOffset? value, int alignment = 0, string? format = null)
     {
-        if (value == null) 
+        if (!value.HasValue)
         {
             if (alignment != 0)
             {
-                AppendFormatted("", alignment); // write only alignment
+                AppendWhitespace(alignment < 0 ? -alignment : alignment);
             }
             return;
         }
-        AppendFormatted(value.Value, alignment, format);
+        AppendFormatted(value.GetValueOrDefault(), alignment, format);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1300,15 +1300,15 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(TimeSpan? value, int alignment = 0, string? format = null)
     {
-        if (value == null) 
+        if (!value.HasValue)
         {
             if (alignment != 0)
             {
-                AppendFormatted("", alignment); // write only alignment
+                AppendWhitespace(alignment < 0 ? -alignment : alignment);
             }
             return;
         }
-        AppendFormatted(value.Value, alignment, format);
+        AppendFormatted(value.GetValueOrDefault(), alignment, format);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1386,15 +1386,15 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(char? value, int alignment = 0, string? format = null)
     {
-        if (value == null) 
+        if (!value.HasValue)
         {
             if (alignment != 0)
             {
-                AppendFormatted("", alignment); // write only alignment
+                AppendWhitespace(alignment < 0 ? -alignment : alignment);
             }
             return;
         }
-        AppendFormatted(value.Value, alignment, format);
+        AppendFormatted(value.GetValueOrDefault(), alignment, format);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1473,15 +1473,15 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(byte? value, int alignment = 0, string? format = null)
     {
-        if (value == null) 
+        if (!value.HasValue)
         {
             if (alignment != 0)
             {
-                AppendFormatted("", alignment); // write only alignment
+                AppendWhitespace(alignment < 0 ? -alignment : alignment);
             }
             return;
         }
-        AppendFormatted(value.Value, alignment, format);
+        AppendFormatted(value.GetValueOrDefault(), alignment, format);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1504,18 +1504,19 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
         }
     }
 
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(Decimal? value, int alignment = 0, string? format = null)
     {
-        if (value == null) 
+        if (!value.HasValue)
         {
             if (alignment != 0)
             {
-                AppendFormatted("", alignment); // write only alignment
+                AppendWhitespace(alignment < 0 ? -alignment : alignment);
             }
             return;
         }
-        AppendFormatted(value.Value, alignment, format);
+        AppendFormatted(value.GetValueOrDefault(), alignment, format);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1541,15 +1542,15 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(Double? value, int alignment = 0, string? format = null)
     {
-        if (value == null) 
+        if (!value.HasValue)
         {
             if (alignment != 0)
             {
-                AppendFormatted("", alignment); // write only alignment
+                AppendWhitespace(alignment < 0 ? -alignment : alignment);
             }
             return;
         }
-        AppendFormatted(value.Value, alignment, format);
+        AppendFormatted(value.GetValueOrDefault(), alignment, format);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1575,15 +1576,15 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(Guid? value, int alignment = 0, string? format = null)
     {
-        if (value == null) 
+        if (!value.HasValue)
         {
             if (alignment != 0)
             {
-                AppendFormatted("", alignment); // write only alignment
+                AppendWhitespace(alignment < 0 ? -alignment : alignment);
             }
             return;
         }
-        AppendFormatted(value.Value, alignment, format);
+        AppendFormatted(value.GetValueOrDefault(), alignment, format);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1609,15 +1610,15 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(Int16? value, int alignment = 0, string? format = null)
     {
-        if (value == null) 
+        if (!value.HasValue)
         {
             if (alignment != 0)
             {
-                AppendFormatted("", alignment); // write only alignment
+                AppendWhitespace(alignment < 0 ? -alignment : alignment);
             }
             return;
         }
-        AppendFormatted(value.Value, alignment, format);
+        AppendFormatted(value.GetValueOrDefault(), alignment, format);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1643,15 +1644,15 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(Int32? value, int alignment = 0, string? format = null)
     {
-        if (value == null) 
+        if (!value.HasValue)
         {
             if (alignment != 0)
             {
-                AppendFormatted("", alignment); // write only alignment
+                AppendWhitespace(alignment < 0 ? -alignment : alignment);
             }
             return;
         }
-        AppendFormatted(value.Value, alignment, format);
+        AppendFormatted(value.GetValueOrDefault(), alignment, format);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1677,15 +1678,15 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(Int64? value, int alignment = 0, string? format = null)
     {
-        if (value == null) 
+        if (!value.HasValue)
         {
             if (alignment != 0)
             {
-                AppendFormatted("", alignment); // write only alignment
+                AppendWhitespace(alignment < 0 ? -alignment : alignment);
             }
             return;
         }
-        AppendFormatted(value.Value, alignment, format);
+        AppendFormatted(value.GetValueOrDefault(), alignment, format);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1711,15 +1712,15 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(SByte? value, int alignment = 0, string? format = null)
     {
-        if (value == null) 
+        if (!value.HasValue)
         {
             if (alignment != 0)
             {
-                AppendFormatted("", alignment); // write only alignment
+                AppendWhitespace(alignment < 0 ? -alignment : alignment);
             }
             return;
         }
-        AppendFormatted(value.Value, alignment, format);
+        AppendFormatted(value.GetValueOrDefault(), alignment, format);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1745,15 +1746,15 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(Single? value, int alignment = 0, string? format = null)
     {
-        if (value == null) 
+        if (!value.HasValue)
         {
             if (alignment != 0)
             {
-                AppendFormatted("", alignment); // write only alignment
+                AppendWhitespace(alignment < 0 ? -alignment : alignment);
             }
             return;
         }
-        AppendFormatted(value.Value, alignment, format);
+        AppendFormatted(value.GetValueOrDefault(), alignment, format);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1779,15 +1780,15 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(UInt16? value, int alignment = 0, string? format = null)
     {
-        if (value == null) 
+        if (!value.HasValue)
         {
             if (alignment != 0)
             {
-                AppendFormatted("", alignment); // write only alignment
+                AppendWhitespace(alignment < 0 ? -alignment : alignment);
             }
             return;
         }
-        AppendFormatted(value.Value, alignment, format);
+        AppendFormatted(value.GetValueOrDefault(), alignment, format);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1813,15 +1814,15 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(UInt32? value, int alignment = 0, string? format = null)
     {
-        if (value == null) 
+        if (!value.HasValue)
         {
             if (alignment != 0)
             {
-                AppendFormatted("", alignment); // write only alignment
+                AppendWhitespace(alignment < 0 ? -alignment : alignment);
             }
             return;
         }
-        AppendFormatted(value.Value, alignment, format);
+        AppendFormatted(value.GetValueOrDefault(), alignment, format);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1847,15 +1848,15 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendFormatted(UInt64? value, int alignment = 0, string? format = null)
     {
-        if (value == null) 
+        if (!value.HasValue)
         {
             if (alignment != 0)
             {
-                AppendFormatted("", alignment); // write only alignment
+                AppendWhitespace(alignment < 0 ? -alignment : alignment);
             }
             return;
         }
-        AppendFormatted(value.Value, alignment, format);
+        AppendFormatted(value.GetValueOrDefault(), alignment, format);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
