@@ -41,7 +41,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 
     void AppendFormattedAlignment(bool value, int alignment, string? format)
     {
-        var bytesWritten = 0;
+        int bytesWritten;
 
         // add left whitespace
         if (alignment > 0)
@@ -127,7 +127,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 
     void AppendFormattedAlignment(byte value, int alignment, string? format)
     {
-        var bytesWritten = 0;
+        int bytesWritten;
 
         // add left whitespace
         if (alignment > 0)
@@ -213,7 +213,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 
     void AppendFormattedAlignment(Decimal value, int alignment, string? format)
     {
-        var bytesWritten = 0;
+        int bytesWritten;
 
         // add left whitespace
         if (alignment > 0)
@@ -299,7 +299,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 
     void AppendFormattedAlignment(Double value, int alignment, string? format)
     {
-        var bytesWritten = 0;
+        int bytesWritten;
 
         // add left whitespace
         if (alignment > 0)
@@ -385,7 +385,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 
     void AppendFormattedAlignment(Guid value, int alignment, string? format)
     {
-        var bytesWritten = 0;
+        int bytesWritten;
 
         // add left whitespace
         if (alignment > 0)
@@ -471,7 +471,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 
     void AppendFormattedAlignment(Int16 value, int alignment, string? format)
     {
-        var bytesWritten = 0;
+        int bytesWritten;
 
         // add left whitespace
         if (alignment > 0)
@@ -557,7 +557,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 
     void AppendFormattedAlignment(Int32 value, int alignment, string? format)
     {
-        var bytesWritten = 0;
+        int bytesWritten;
 
         // add left whitespace
         if (alignment > 0)
@@ -643,7 +643,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 
     void AppendFormattedAlignment(Int64 value, int alignment, string? format)
     {
-        var bytesWritten = 0;
+        int bytesWritten;
 
         // add left whitespace
         if (alignment > 0)
@@ -729,7 +729,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 
     void AppendFormattedAlignment(SByte value, int alignment, string? format)
     {
-        var bytesWritten = 0;
+        int bytesWritten;
 
         // add left whitespace
         if (alignment > 0)
@@ -815,7 +815,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 
     void AppendFormattedAlignment(Single value, int alignment, string? format)
     {
-        var bytesWritten = 0;
+        int bytesWritten;
 
         // add left whitespace
         if (alignment > 0)
@@ -901,7 +901,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 
     void AppendFormattedAlignment(UInt16 value, int alignment, string? format)
     {
-        var bytesWritten = 0;
+        int bytesWritten;
 
         // add left whitespace
         if (alignment > 0)
@@ -987,7 +987,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 
     void AppendFormattedAlignment(UInt32 value, int alignment, string? format)
     {
-        var bytesWritten = 0;
+        int bytesWritten;
 
         // add left whitespace
         if (alignment > 0)
@@ -1073,7 +1073,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 
     void AppendFormattedAlignment(UInt64 value, int alignment, string? format)
     {
-        var bytesWritten = 0;
+        int bytesWritten;
 
         // add left whitespace
         if (alignment > 0)
@@ -1159,7 +1159,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 
     void AppendFormattedAlignment(DateTime value, int alignment, string? format)
     {
-        var bytesWritten = 0;
+        int bytesWritten;
 
         // add left whitespace
         if (alignment > 0)
@@ -1245,7 +1245,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 
     void AppendFormattedAlignment(DateTimeOffset value, int alignment, string? format)
     {
-        var bytesWritten = 0;
+        int bytesWritten;
 
         // add left whitespace
         if (alignment > 0)
@@ -1331,7 +1331,7 @@ public ref partial struct Utf8StringWriter<TBufferWriter>
 
     void AppendFormattedAlignment(TimeSpan value, int alignment, string? format)
     {
-        var bytesWritten = 0;
+        int bytesWritten;
 
         // add left whitespace
         if (alignment > 0)
